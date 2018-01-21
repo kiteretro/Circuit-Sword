@@ -1,0 +1,6 @@
+sudo apt-get install raspberrypi-kernel-headers build-essential
+git clone https://github.com/hadess/rtl8723bs
+cd rtl8723bs/
+git checkout db2c4f61d48fe3b47c167c8bcd722ce83c24aca5
+make
+sudo make install

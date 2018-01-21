@@ -1,0 +1,18 @@
+#
+# This script gets sourced on boot
+# It should exist as /boot/config-saio.txt
+#
+
+# Mode to boot in, TESTER will run a debug app
+MODE=NORMAL
+#MODE=TESTER
+#MODE=SHELL
+
+# Cloner settings
+CLONER=ON
+
+# Location of tester script (gets called with <python $TESTER>)
+TESTER=/home/pi/Circuit-Sword/release/tester/tester.py
+
+# Startup Exec
+STARTUPEXEC="sudo setfont /home/pi/Circuit-Sword/settings/miniwi-8.psf.gz"

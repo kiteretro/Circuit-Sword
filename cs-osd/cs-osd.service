@@ -1,0 +1,16 @@
+[Unit]
+Description=Circuit Sword OSD Service
+ 
+[Service]
+ExecStart=/usr/bin/python /home/pi/Circuit-Sword/cs-osd/cs-osd.py
+StandardOutput=null
+ 
+[Install]
+WantedBy=multi-user.target
+Alias=cs-osd.service
+
+[Journal]
+#Storage=volatile
+#RuntimeMaxUse=100K
+#RuntimeMaxFileSize=100K
+#RuntimeMaxFiles=3
