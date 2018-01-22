@@ -193,6 +193,13 @@ void setInfo(bool val) {
 }
 
 //--------------------------------------------------------------------------------------
+// Write a 2 character binary data
+void serialWrite2(uint16_t data) {
+  Serial.write(data & 0xFF);
+  Serial.write(data >> 8 & 0xFF);
+}
+
+//--------------------------------------------------------------------------------------
 // Check EEPROM is ok and read contents
 void eepromCheck() {
   // To make sure there are settings, and they are YOURS!

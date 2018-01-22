@@ -279,15 +279,19 @@ void processSerial() {
     char in = Serial.read();
 
     switch (in) {
-      case 'V': //voltage val (0-1023)
+      case 'V': //voltage val (0-1023 (string))
         Serial.print(voltVal);
         break;
-        
+
+      case 'c': //voltage val (0-1023 (16bit)
+        serialWrite2(voltVal);
+        break;
+      
       case 'i': //is info (0-1)
         Serial.print(cfg.info_val);
         break;
 
-      case 'e': //read volume (H0-100)
+      case 'e': //read volume (B0-100)
         Serial.write(cfg.vol_val);
         break;
 
@@ -295,7 +299,7 @@ void processSerial() {
         Serial.print(cfg.vol_val);
         break;
 
-      case 'E': //set volume (E + H0-100)
+      case 'E': //set volume (E + B0-100)
         if (Serial.available() == 1) {
           tmp = Serial.read();
           setVol(tmp);
@@ -305,7 +309,7 @@ void processSerial() {
         }
         break;
 
-      case 'q': //read backlight (H0-100)
+      case 'q': //read backlight (B0-100)
         Serial.write(cfg.bl_val);
         break;
 
@@ -313,7 +317,7 @@ void processSerial() {
         Serial.print(cfg.bl_val);
         break;
 
-      case 'Q': //set backlight (Q + H0-100)
+      case 'Q': //set backlight (Q + B0-100)
         if (Serial.available() == 1) {
           tmp = Serial.read();
           setBl(tmp);
@@ -373,12 +377,12 @@ void processSerial() {
         }
         break;
         
-      case 'b'://button state NOW (HEXHEX)
+      case 'b'://button state NOW (BINBIN)
         Serial.write(btns_char[0]);
         Serial.write(btns_char[1]);
         break;
         
-      case 'B': //button last full state (HEXHEX) also freezes USB
+      case 'B': //button last full state (BINBIN) also freezes USB
         Serial.write(btns_char_last[0]);
         Serial.write(btns_char_last[1]);
         btns_char_last[0] = 0;
