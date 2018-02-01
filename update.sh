@@ -39,6 +39,9 @@ echo "Updating OSD from git.."
 git fetch --all
 git reset --hard origin/master
 
+# Set permissions on the initial required
+chmod +x install.sh update.sh
+
 # Perform re-install
 echo "Performing script setup.."
 sh ./install.sh

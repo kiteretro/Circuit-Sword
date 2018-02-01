@@ -99,17 +99,6 @@ exists() { #FILE
 # LOGIC!
 echo "INSTALLING.."
 
-if exists "$BINDIR/LICENSE" ; then
-  if [ $(pwd) == "$BINDIR" ] ; then
-    # We are re-installing so do a pull instead
-    execute "git fetch --all"
-    execute "git reset --hard origin/master"
-  else
-    # Not in this dir but it does exist
-    execute "rm -rf $BINDIR"
-  fi
-fi
-
 # Checkout code if not already done so
 if ! exists "$BINDIR/LICENSE" ; then
   execute "git clone --recursive --depth 1 --branch $BRANCH $GITHUBURL $BINDIR"
@@ -152,6 +141,12 @@ execute "sed -i \"s/ -b/ -o alsa -b/\" $PIHOMEDIR/RetroPie-Setup/scriptmodules/s
 
 # Fix N64 audio
 execute "sed -i \"s/mupen64plus-audio-omx/mupen64plus-audio-sdl/\" $DEST/opt/retropie/emulators/mupen64plus/bin/mupen64plus.sh"
+
+# Fix C64 audio
+if ! exists "$PIHOMEDIR/.vice/sdl-vicerc"
+  execute "mkdir -p $PIHOMEDIR/.vice/"
+  execute "echo 'SoundOutput=2' > $PIHOMEDIR/.vice/sdl-vicerc"
+fi
 
 # Install the pixel theme and set it as default
 execute "mkdir -p $DEST/etc/emulationstation/themes"
