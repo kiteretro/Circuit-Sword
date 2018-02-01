@@ -100,7 +100,7 @@ exists() { #FILE
 echo "INSTALLING.."
 
 if exists "$BINDIR/LICENSE" ; then
-  if [ `pwd` == "$BINDIR" ] ; then
+  if [ $(pwd) == "$BINDIR" ] ; then
     # We are re-installing so do a pull instead
     execute "git fetch --all"
     execute "git reset --hard origin/master"
@@ -143,6 +143,8 @@ execute "chmod +x $BINDIR/cs-osd/cs-osd/cs-osd"
 execute "chmod +x $BINDIR/rfkill/rfkill"
 execute "chmod +x $BINDIR/dpi-cloner/dpi-cloner"
 execute "chmod +x $BINDIR/cs-tester/pngview"
+execute "chmod +x $BINDIR/install.sh"
+execute "chmod +x $BINDIR/update.sh"
 
 # Fix splashsreen sound
 execute "sed -i \"s/ *both/ alsa/\" $DEST/etc/init.d/asplashscreen"
