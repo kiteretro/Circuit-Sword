@@ -170,15 +170,21 @@ execute "dpkg -x $BINDIR/settings/python-serial_2.6-1.1_all.deb $DEST/tmp/python
 execute "cp -r $DEST/tmp/python-serial/* $DEST/"
 execute "rm -rf $DEST/tmp/python-serial"
 
+# Prepare for service install
+execute "rm -f $DEST/etc/systemd/system/cs-osd.service"
+execute "rm -f $DEST/etc/systemd/system/multi-user.target.wants/cs-osd.service"
+execute "rm -f $DEST/lib/systemd/system/cs-osd.service"
+execute "rm -f $DEST/lib/systemd/system/dpi-cloner.service"
+
 # Install OSD service
-execute "cp $BINDIR/cs-osd/cs-osd.service $DEST/lib/systemd/system/"
+execute "cp $BINDIR/cs-osd/cs-osd.service $DEST/lib/systemd/system/cs-osd.service"
 
 #execute "systemctl enable cs-osd.service"
 execute "ln -s $DEST/lib/systemd/system/cs-osd.service $DEST/etc/systemd/system/cs-osd.service"
 execute "ln -s $DEST/lib/systemd/system/cs-osd.service $DEST/etc/systemd/system/multi-user.target.wants/cs-osd.service"
 
 # Install DPI-CLONER service
-execute "cp $BINDIR/dpi-cloner/dpi-cloner.service $DEST/lib/systemd/system/"
+execute "cp $BINDIR/dpi-cloner/dpi-cloner.service $DEST/lib/systemd/system/dpi-cloner.service"
 
 if [[ $DEST == "" ]] ; then
   execute "systemctl start cs-osd.service"
