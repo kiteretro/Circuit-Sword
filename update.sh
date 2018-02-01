@@ -20,12 +20,12 @@
 # along with this repo. If not, see <http://www.gnu.org/licenses/>.
 #
 
+# THIS MUST BE RUN FROM THE GIT CURRENT DIRECTORY (cd your way there)
+
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root (sudo)"
   exit 1
 fi
-
-PWD=`pwd`
 
 # Stop OSD
 echo "Stopping OSD.."
@@ -44,7 +44,7 @@ chmod +x install.sh update.sh
 
 # Perform re-install
 echo "Performing script setup.."
-./install.sh
+./install.sh YES
 
 # Start OSD
 echo "Starting OSD.."
