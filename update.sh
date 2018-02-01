@@ -44,7 +44,7 @@ chmod +x install.sh update.sh
 
 # Perform re-install
 echo "Performing script setup.."
-sh ./install.sh
+./install.sh
 
 # Start OSD
 echo "Starting OSD.."

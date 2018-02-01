@@ -187,6 +187,7 @@ execute "ln -s $DEST/lib/systemd/system/cs-osd.service $DEST/etc/systemd/system/
 execute "cp $BINDIR/dpi-cloner/dpi-cloner.service $DEST/lib/systemd/system/dpi-cloner.service"
 
 if [[ $DEST == "" ]] ; then
+  execute "systemctl daemon-reload"
   execute "systemctl start cs-osd.service"
 fi
 
