@@ -143,7 +143,7 @@ execute "sed -i \"s/ -b/ -o alsa -b/\" $PIHOMEDIR/RetroPie-Setup/scriptmodules/s
 execute "sed -i \"s/mupen64plus-audio-omx/mupen64plus-audio-sdl/\" $DEST/opt/retropie/emulators/mupen64plus/bin/mupen64plus.sh"
 
 # Fix C64 audio
-if ! exists "$PIHOMEDIR/.vice/sdl-vicerc"
+if ! exists "$PIHOMEDIR/.vice/sdl-vicerc" ; then
   execute "mkdir -p $PIHOMEDIR/.vice/"
   execute "echo 'SoundOutput=2' > $PIHOMEDIR/.vice/sdl-vicerc"
 fi
