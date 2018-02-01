@@ -114,7 +114,7 @@ fi
 if ! exists "$BINDIR/LICENSE" ; then
   execute "git clone --recursive --depth 1 --branch $BRANCH $GITHUBURL $BINDIR"
 fi
-execute "chown $USER:$USER $BINDIR"
+execute "chown -R $USER:$USER $BINDIR"
 
 #####################################################################
 # Copy required to /boot
