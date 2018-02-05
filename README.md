@@ -20,7 +20,7 @@ https://github.com/geebles/Circuit-Sword/releases
 2. That's it, power on and you are ready to go! No further steps required!
 
 ## Installing on top of a fresh retropie installation
-NOTE: You should upgrade the kernel to at least 4.14.y for WiFi to work properly
+NOTE: You should upgrade the kernel to at least 4.14.y and install the RTL8723BS module for Wifi to work!
 
 1. Download retropie from the offical retropie site
 2. Unzip and write the .img to an SD card (e.g. using win32diskimager)
