@@ -1,6 +1,6 @@
 /*
  * This file originates from Kite's Circuit Sword control board project.
- * Author: Kite/Geebles (Giles Burgess)
+ * Author: Kite/Geebles/kiteretro (Giles Burgess)
  * 
  * THIS HEADER MUST REMAIN WITH THIS FILE AT ALL TIMES
  * 

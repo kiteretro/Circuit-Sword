@@ -1,5 +1,5 @@
 # Get pre-compiled kernel
-https://github.com/geebles/rpi-precompiled-kernels
+https://github.com/kiteretro/rpi-precompiled-kernels
 
 # Build
 ```

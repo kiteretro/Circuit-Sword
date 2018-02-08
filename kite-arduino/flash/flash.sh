@@ -1,7 +1,7 @@
 # FLASH ATMEGA32u4 WITH HEX
 #
-# Author: Giles Burgess (Kite/Geebles)
-# GitHub: https://github.com/geebles/Circuit-Sword
+# Author: Giles Burgess (Kite/Geebles/kiteretro)
+# GitHub: https://github.com/kiteretro/Circuit-Sword
 #
 # reset.py from https://github.com/nicholaskell/Arduino_Loader
 #

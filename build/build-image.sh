@@ -45,7 +45,7 @@ fi
 
 BUILD="CSO_CM3_"$(date +"%Y%m%d-%H%M%S")
 GITHUBPROJECT="Circuit-Sword"
-GITHUBURL="https://github.com/geebles/$GITHUBPROJECT"
+GITHUBURL="https://github.com/kiteretro/$GITHUBPROJECT"
 PIHOMEDIR="$DEST/home/pi"
 BINDIR="$PIHOMEDIR/$GITHUBPROJECT"
 USER="pi"
