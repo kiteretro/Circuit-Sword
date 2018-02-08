@@ -54,7 +54,7 @@ serport = '/dev/ttyACM0'
 
 # Software variables
 settings_shutdown = 1 #Enable ability to shut down system
-tick_max = 3
+tick_max = 5
 
 # Setup
 logging.basicConfig(level=logging.DEBUG)
@@ -411,12 +411,14 @@ try:
   tick = 0
   while 1:
     
+    # Check for shutdown and action it
     if (settings_shutdown):
       checkShdn()
 
+    # Check and apply volume
     checkVolume()
     
-    time.sleep(1)
+    # Increment loop counter
     tick += 1
     
     # When loop at max, update the OSD
@@ -431,6 +433,10 @@ try:
       
       createINI(volt, chrg, 0, temp, debug, wifi, mute, ini_data_file)
       tick = 0
+    
+    # Otherwise sleep a little
+    else:
+      time.sleep(0.3)
   
 except KeyboardInterrupt:
   GPIO.cleanup
