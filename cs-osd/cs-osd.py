@@ -69,7 +69,7 @@ GPIO.setup(pi_shdn, GPIO.IN)
 GPIO.setup(pi_overtemp, GPIO.OUT)
 GPIO.output(pi_overtemp, GPIO.HIGH)
 GPIO.setup(pi_wifien, GPIO.OUT)
-GPIO.output(pi_wifien, GPIO.LOW)
+GPIO.output(pi_wifien, GPIO.HIGH)
 
 # Batt variables
 voltscale = 203.5 #ADJUST THIS
@@ -268,7 +268,7 @@ def readModeWifi():
     if (wifi_state != 'ON'):
       wifi_state = 'ON'
       logging.info("Wifi    [ENABLING]")
-      #GPIO.output(pi_wifien, GPIO.LOW)
+      GPIO.output(pi_wifien, GPIO.HIGH)
       try:
         out = subprocess.check_output([ 'sudo', rfkill_path, 'unblock', 'wifi' ])
         logging.info("Wifi    [" + str(out) + "]")
@@ -303,7 +303,7 @@ def readModeWifi():
     if (wifi_state != 'OFF'):
       wifi_state = 'OFF'
       logging.info("Wifi    [DISABLING]")
-      #GPIO.output(pi_wifien, GPIO.HIGH)
+      GPIO.output(pi_wifien, GPIO.LOW)
       try:
         out = subprocess.check_output([ 'sudo', rfkill_path, 'block', 'wifi' ])
         logging.info("Wifi    [" + str(out) + "]")
