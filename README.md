@@ -3,6 +3,14 @@ Kite's Circuit Sword
 
 Welcome to the software repository for Kite's Circuit Sword. This repo contains most/all of the software for the large all-in-one handheld gaming circuit boards, known as the Circuit Sword.
 
+_PRE-ORDER SIGN UP NOTIFICATION: https://goo.gl/forms/e97uUvPOfUxPWdz82_
+
+![](https://i.imgur.com/ibdWkuw.png) Follow me on Instagram: http://instagram.com/kiteretro
+
+![](https://i.imgur.com/gM0UlHb.png) Follow me on YouTube: http://youtube.com/gilesburgess
+
+![](https://i.imgur.com/s4VyfJG.png) Like my work? Why not buy me a coffee: http://ko-fi.com/kiteretro
+
 # Where do I start?
 Start by reading the wiki! It contains everything from the software setup to the hardware guides, and also troubleshooting!
 
