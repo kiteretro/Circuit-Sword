@@ -38,7 +38,8 @@ except ImportError:
 # Config variables
 root_dir        = '/home/pi/Circuit-Sword/'
 bin_dir         = root_dir + 'cs-osd/'
-ini_data_file   = '/tmp/cs-osd-data.ini'
+ram_dir         = '/ramdisk/'
+ini_data_file   = ram_dir + 'cs-osd-data.ini' if os.path.exists(ram_dir) else root_dir + 'cs-osd/data.ini'
 ini_config_file = bin_dir + 'cs-osd/config.ini'
 osd_path        = bin_dir + 'cs-osd/cs-osd'
 rfkill_path     = root_dir + 'rfkill/rfkill'
