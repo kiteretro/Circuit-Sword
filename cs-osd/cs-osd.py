@@ -109,7 +109,7 @@ try:
     parity=serial.PARITY_NONE,
     stopbits=serial.STOPBITS_ONE,
     bytesize=serial.EIGHTBITS,
-    timeout=0.2
+    timeout=0.6
   )
 except Exception as e:
   logging.exception("ERROR: Failed to open serial port");
@@ -437,7 +437,7 @@ try:
     
     # Otherwise sleep a little
     else:
-      time.sleep(0.3)
+      time.sleep(0.1)
   
 except KeyboardInterrupt:
   GPIO.cleanup
