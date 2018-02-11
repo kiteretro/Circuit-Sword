@@ -219,7 +219,8 @@ void setGamepad() {
     Gamepad.release(GP_R2);
   }
 
-#ifdef USE_VOLUME_DIGITAL
+  // CC1/CC2 function
+#if defined(USE_VOLUME_DIGITAL) && !defined(USE_ALT_PINS_VOLUME_DIGITAL)
     if (btns[B_C1]) {
       setVolInc(VOL_DOWN);
       delay(200);
@@ -240,6 +241,18 @@ void setGamepad() {
   } else {
     Gamepad.release(GP_C2);
   }
+#endif
+
+  // Alt volume combo mode
+#if defined(USE_VOLUME_DIGITAL) && defined(USE_ALT_PINS_VOLUME_DIGITAL)
+  if (!digitalRead(PIN_VOL_D_ALT_DOWN)) {
+      setVolInc(VOL_DOWN);
+      delay(200);
+    }
+    if (!digitalRead(PIN_VOL_D_ALT_UP)) {
+      setVolInc(VOL_UP);
+      delay(200);
+    }
 #endif
 
   // JOYSTICK 1

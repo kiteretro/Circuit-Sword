@@ -188,6 +188,12 @@ void setup() {
 
   // Init buttons
   TCA_init();
+
+  // Alt volume combo mode
+#if defined(USE_VOLUME_DIGITAL) && defined(USE_ALT_PINS_VOLUME_DIGITAL)
+  pinMode(PIN_VOL_D_ALT_UP, INPUT_PULLUP)
+  pinMode(PIN_VOL_D_ALT_DOWN, INPUT_PULLUP)
+#endif
   
   // Get button initial states
   readButtons();

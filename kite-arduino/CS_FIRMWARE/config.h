@@ -33,6 +33,8 @@
 //#define NOMODE //Disable the use of the 'mode' button completely
 //#define CONFIG_WIFI_DEFAULT_OFF
 //#define USE_OLD_BUTTON_COMBOS //Changes UP/DOWN to do brightness instead
+//#define USE_VOLUME_DIGITAL // Use CC1/CC2 or the rocker switch for volume
+//#define USE_ALT_PINS_VOLUME_DIGITAL // Alternative digital volume pins
 
 // Default Hardware pins
 #define PIN_LCD_CS 8
@@ -47,6 +49,8 @@
 #define PIN_AUD 13
 #define PIN_JOY1_X A9  //D9
 #define PIN_JOY1_Y A10 //D10
+#define PIN_VOL_D_ALT_UP 0 //RX0
+#define PIN_VOL_D_ALT_DOWN 1 //TX0
 
 // Custom hardware bits
 #if HARDWARE == HARDWARE_CSO_V1_1E
