@@ -38,7 +38,8 @@ except ImportError:
 # Config variables
 root_dir        = '/home/pi/Circuit-Sword/'
 bin_dir         = root_dir + 'cs-osd/'
-ini_data_file   = bin_dir + 'cs-osd/data.ini'
+ram_dir         = '/ramdisk/'
+ini_data_file   = ram_dir + 'cs-osd-data.ini' if os.path.exists(ram_dir) else root_dir + 'cs-osd/data.ini'
 ini_config_file = bin_dir + 'cs-osd/config.ini'
 osd_path        = bin_dir + 'cs-osd/cs-osd'
 rfkill_path     = root_dir + 'rfkill/rfkill'
@@ -54,7 +55,7 @@ serport = '/dev/ttyACM0'
 
 # Software variables
 settings_shutdown = 1 #Enable ability to shut down system
-tick_max = 5
+tick_max = 8
 
 # Setup
 logging.basicConfig(level=logging.DEBUG)
@@ -108,7 +109,7 @@ try:
     parity=serial.PARITY_NONE,
     stopbits=serial.STOPBITS_ONE,
     bytesize=serial.EIGHTBITS,
-    timeout=1
+    timeout=0.2
   )
 except Exception as e:
   logging.exception("ERROR: Failed to open serial port");
