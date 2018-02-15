@@ -7,8 +7,6 @@ _PRE-ORDER SIGN UP NOTIFICATION: https://goo.gl/forms/e97uUvPOfUxPWdz82_
 
 ![](https://i.imgur.com/ibdWkuw.png) Follow me on Instagram: http://instagram.com/kiteretro
 
-![](https://i.imgur.com/gM0UlHb.png) Follow me on YouTube: http://youtube.com/gilesburgess
-
 ![](https://i.imgur.com/s4VyfJG.png) Like my work? Why not buy me a coffee: http://ko-fi.com/kiteretro
 
 # Where do I start?
