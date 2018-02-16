@@ -137,7 +137,7 @@ execute "chmod +x $BINDIR/update.sh"
 
 # Fix splashsreen sound
 execute "sed -i \"s/ *both/ alsa/\" $DEST/etc/init.d/asplashscreen"
-execute "sed -i \"s/ -b/ -o alsa -b/\" $PIHOMEDIR/RetroPie-Setup/scriptmodules/supplementary/splashscreen.sh"
+#execute "sed -i \"s/ -b/ -o alsa -b/\" $PIHOMEDIR/RetroPie-Setup/scriptmodules/supplementary/splashscreen.sh"
 
 # Fix N64 audio
 execute "sed -i \"s/mupen64plus-audio-omx/mupen64plus-audio-sdl/\" $DEST/opt/retropie/emulators/mupen64plus/bin/mupen64plus.sh"
