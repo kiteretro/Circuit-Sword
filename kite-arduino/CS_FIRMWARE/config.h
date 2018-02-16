@@ -35,6 +35,7 @@
 //#define USE_OLD_BUTTON_COMBOS //Changes UP/DOWN to do brightness instead
 //#define USE_VOLUME_DIGITAL // Use CC1/CC2 or the rocker switch for volume
 //#define USE_ALT_PINS_VOLUME_DIGITAL // Alternative digital volume pins
+#define USE_AUTODIM
 
 // Default Hardware pins
 #define PIN_LCD_CS 8
@@ -144,4 +145,6 @@
 //#define INVERT_X2        // Invert the X2 axis
 #define INVERT_Y2        // Invert the Y2 axis
 
+// Auto dim
+#define AUTODIM_TIMEOUT 300 //secs of no input to dim (5mins)
 
