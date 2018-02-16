@@ -267,7 +267,7 @@ void loop() {
     tnow2 = millis();
   }
 
-  // Misc functions (1Hz)
+  // Misc functions (2Hz)
   static uint32_t tnow3 = 0;
   if (millis() - tnow3 > 500) {
 
@@ -291,8 +291,12 @@ void loop() {
     if (tSinceInput > AUTODIM_TIMEOUT) {
       if (!isDim) {
         isDim = true;
+        // Set BL to low
         lastBlVal = cfg.bl_val;
         setBl(BL_MIN);
+        // Save back to EEPROM the old val (without updating PWM)
+        cfg.bl_val = lastBlVal;
+        eepromWrite();
       }
     } else {
       if (isDim) {
