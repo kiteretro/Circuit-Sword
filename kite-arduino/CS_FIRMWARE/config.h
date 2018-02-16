@@ -146,5 +146,5 @@
 #define INVERT_Y2        // Invert the Y2 axis
 
 // Auto dim
-#define AUTODIM_TIMEOUT 300 //secs of no input to dim (5mins)
+#define AUTODIM_TIMEOUT 600 * 2 //secs*2 of no input to dim (10mins)
 
