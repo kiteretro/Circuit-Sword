@@ -126,6 +126,12 @@ volatile uint16_t currVal = 0;
 // Button update state
 volatile byte state = LOW;
 
+// Auto dimming variables
+uint32_t tSinceInput = 0;
+uint8_t lastBlVal = 0;
+bool isDim = false;
+uint8_t dim_btns_char_last[2] = {0,0};
+
 //--------------------------------------------------------------------------------------
 // MAIN SETUP
 void setup() {
@@ -191,8 +197,8 @@ void setup() {
 
   // Alt volume combo mode
 #if defined(USE_VOLUME_DIGITAL) && defined(USE_ALT_PINS_VOLUME_DIGITAL)
-  pinMode(PIN_VOL_D_ALT_UP, INPUT_PULLUP)
-  pinMode(PIN_VOL_D_ALT_DOWN, INPUT_PULLUP)
+  pinMode(PIN_VOL_D_ALT_UP, INPUT_PULLUP);
+  pinMode(PIN_VOL_D_ALT_DOWN, INPUT_PULLUP);
 #endif
   
   // Get button initial states
@@ -267,6 +273,34 @@ void loop() {
 
     // Read some analog values
     readAnalogData();
+
+    // Auto dim
+#ifdef USE_AUTODIM
+    // Check for button change
+    if (dim_btns_char_last[0] != btns_char[0] || dim_btns_char_last[1] != btns_char[1]) {
+      dim_btns_char_last[0] = btns_char[0];
+      dim_btns_char_last[1] = btns_char[1];
+      tSinceInput = 0;
+    } else {
+      if (!isDim) {
+        tSinceInput++;
+      }
+    }
+
+    // Check if in timeout or not
+    if (tSinceInput > AUTODIM_TIMEOUT) {
+      if (!isDim) {
+        isDim = true;
+        lastBlVal = cfg.bl_val;
+        setBl(BL_MIN);
+      }
+    } else {
+      if (isDim) {
+        isDim = false;
+        setBl(lastBlVal);
+      }
+    }
+#endif
     
     tnow3 = millis();
   }
