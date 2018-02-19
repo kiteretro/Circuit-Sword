@@ -376,6 +376,9 @@ def readVol():
     volVal = readSerial('f')
     if volVal is not None:
         volVal = int(volVal)
+        
+        if volVal > 100:
+          volVal = 100
 
         logging.info("Volume  [" + str(volVal) + "]")
         return volVal

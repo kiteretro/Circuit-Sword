@@ -144,6 +144,10 @@ void setAud(bool val) {
 void setVolInc(bool t) {
   uint8_t v = cfg.vol_val;
 
+  if (v > VOL_MAX) {
+    v = VOL_MAX;
+  }
+
   if (t == VOL_DOWN) {
     if (v < VOL_INC) {
       v = VOL_MIN;
@@ -163,7 +167,13 @@ void setVolInc(bool t) {
 
 void setVol(uint8_t t) {
   // Boundary check
-  cfg.vol_val = constrain(t, VOL_MIN, VOL_MAX);
+  uint8_t v = constrain(t, VOL_MIN, VOL_MAX);
+
+  if (v > VOL_MAX) {
+    v = VOL_MAX;
+  }
+  
+  cfg.vol_val = v;
 
 #ifdef DEBUG
   Serial.print("VOLUME[");
