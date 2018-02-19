@@ -134,6 +134,7 @@ execute "chmod +x $BINDIR/dpi-cloner/dpi-cloner"
 execute "chmod +x $BINDIR/cs-tester/pngview"
 execute "chmod +x $BINDIR/install.sh"
 execute "chmod +x $BINDIR/update.sh"
+execute "chmod +x $BINDIR/flash-arduino.sh"
 
 # Fix splashsreen sound
 execute "sed -i \"s/ *both/ alsa/\" $DEST/etc/init.d/asplashscreen"
