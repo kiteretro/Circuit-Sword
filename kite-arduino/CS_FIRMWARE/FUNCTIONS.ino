@@ -149,16 +149,24 @@ void setVolInc(bool t) {
   }
 
   if (t == VOL_DOWN) {
-    if (v < VOL_INC) {
-      v = VOL_MIN;
-    } else {
+    if (v > VOL_INC) {
       v -= VOL_INC;
+    } else {
+      if (v > VOL_MIN) {
+        v--;
+      } else {
+        v = VOL_MIN;
+      }
     }
   } else if (t == VOL_UP) {
     if (v + VOL_INC > VOL_MAX) {
       v = VOL_MAX;
     } else {
-      v += VOL_INC;
+      if (v < VOL_INC) {
+        v++;
+      } else {
+        v += VOL_INC;
+      }
     }
   }
 
