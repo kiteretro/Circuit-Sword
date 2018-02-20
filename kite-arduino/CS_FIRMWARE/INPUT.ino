@@ -428,7 +428,7 @@ void readAnalogData() {
 #ifdef USE_VOLUME_ANALOG
   if (cfg.is_a_vol) {
     uint16_t a_vol = constrain(analogRead(PIN_A_VOL), VOL_A_MIN, VOL_A_MAX);
-    cfg.vol_val = map(a_vol, VOL_A_MIN, VOL_A_MAX, VOL_MIN, VOL_MAX);
+    setVol(map(a_vol, VOL_A_MIN, VOL_A_MAX, VOL_MIN, VOL_MAX));
   }
 #endif
 }
@@ -449,11 +449,14 @@ void calibrateJoystick() {
 #endif
 
 #ifdef USE_VOLUME_ANALOG
-  if(analogRead(PIN_A_VOL) > 50) {
+  uint16_t av = analogRead(PIN_A_VOL);
+  if(av > 250 && av < 1000) {
     cfg.is_a_vol = 1;
   } else {
     cfg.is_a_vol = 0;
   }
+#else
+  cfg.is_a_vol = 0;
 #endif
 
 #ifdef USE_JOYSTICK_1
