@@ -65,7 +65,7 @@
 
 #elif MODEL == MODEL_CSORIGINAL
 #define USE_JOYSTICK_1
-#define USE_JOTSTICK_2
+#define USE_JOYSTICK_2
 #define USE_VOLUME_ANALOG
 #define LCD LCD_35_640
 #define BTN_UP     15

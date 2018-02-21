@@ -564,7 +564,7 @@ void calibrateJoystick() {
 
     // JOY 2
 #ifdef USE_JOYSTICK_2
-    if (joy1_ok) {
+    if (joy2_ok) {
       uint16_t x2 = analogRead(PIN_JOY2_X); delay(1);
       uint16_t y2 = analogRead(PIN_JOY2_Y);
   
