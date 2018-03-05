@@ -27,6 +27,7 @@ https://github.com/kiteretro/Circuit-Sword/releases
 
 ## Installing on top of a fresh retropie installation
 NOTE: You should upgrade the kernel to at least 4.14.y and install the RTL8723BS module for Wifi to work!
+NOTE: You could do this by following the 'upgrade kernel' steps in the build folder.
 
 1. Download retropie from the offical retropie site
 2. Unzip and write the .img to an SD card (e.g. using win32diskimager)
