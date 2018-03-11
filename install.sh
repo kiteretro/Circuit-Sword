@@ -110,9 +110,9 @@ execute "chown -R $USER:$USER $BINDIR"
 
 if ! exists "$DESTBOOT/config_ORIGINAL.txt" ; then
   execute "cp $DESTBOOT/config.txt $DESTBOOT/config_ORIGINAL.txt"
+  execute "cp $BINDIR/settings/config.txt $DESTBOOT/config.txt"
+  execute "cp $BINDIR/settings/config-cs.txt $DESTBOOT/config-cs.txt"
 fi
-execute "cp $BINDIR/settings/config.txt $DESTBOOT/config.txt"
-execute "cp $BINDIR/settings/config-cs.txt $DESTBOOT/config-cs.txt"
 
 #####################################################################
 # Copy required to /
@@ -137,11 +137,15 @@ execute "chmod +x $BINDIR/update.sh"
 execute "chmod +x $BINDIR/flash-arduino.sh"
 
 # Fix splashsreen sound
-execute "sed -i \"s/ *both/ alsa/\" $DEST/etc/init.d/asplashscreen"
-#execute "sed -i \"s/ -b/ -o alsa -b/\" $PIHOMEDIR/RetroPie-Setup/scriptmodules/supplementary/splashscreen.sh"
+if exists "$DEST/etc/init.d/asplashscreen" ; then
+  execute "sed -i \"s/ *both/ alsa/\" $DEST/etc/init.d/asplashscreen"
+  #execute "sed -i \"s/ -b/ -o alsa -b/\" $PIHOMEDIR/RetroPie-Setup/scriptmodules/supplementary/splashscreen.sh"
+fi
 
 # Fix N64 audio
-execute "sed -i \"s/mupen64plus-audio-omx/mupen64plus-audio-sdl/\" $DEST/opt/retropie/emulators/mupen64plus/bin/mupen64plus.sh"
+if exists "$DEST/opt/retropie/emulators/mupen64plus/bin/mupen64plus.sh" ; then
+  execute "sed -i \"s/mupen64plus-audio-omx/mupen64plus-audio-sdl/\" $DEST/opt/retropie/emulators/mupen64plus/bin/mupen64plus.sh"
+fi
 
 # Fix C64 audio
 if ! exists "$PIHOMEDIR/.vice/sdl-vicerc" ; then
