@@ -448,6 +448,10 @@ void calibrateJoystick() {
   Serial.println("CALIB");
 #endif
 
+  cfg.iscalib1 = false;
+  cfg.iscalib2 = false;
+  cfg.is_a_vol = false;
+
 #ifdef USE_VOLUME_ANALOG
   uint16_t av = analogRead(PIN_A_VOL);
   if(av > 250 && av < 1000) {
