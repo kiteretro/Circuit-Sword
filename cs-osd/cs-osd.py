@@ -418,14 +418,15 @@ def doShutdown():
     
     es_process_found = False
     for line in out.splitlines():
-        if not es_process_found:
-            path = line.split(None, 1)[1]
-            if path.startswith('/opt/retropie/supplementary/emulationstation/emulationstation'):
-                es_process_found = True
-                open('/tmp/es-shutdown', 'a').close()
-                pid = int(line.split(None, 1)[0])
-                os.kill(pid, signal.SIGTERM)
-                time.sleep(5)
+        path = line.split(None, 1)[1]
+        if path.startswith('/opt/retropie/supplementary/emulationstation/emulationstation'):
+            es_process_found = True
+            open('/tmp/es-shutdown', 'a').close()
+            pid = int(line.split(None, 1)[0])
+            os.kill(pid, signal.SIGTERM)
+    
+    if es_process_found:
+        time.sleep(5)
 
     os.system("sudo shutdown -h now")
 
