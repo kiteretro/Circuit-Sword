@@ -423,6 +423,7 @@ def doShutdown():
             es_process_found = True
             try:
                 open('/tmp/es-shutdown', 'a').close()
+                os.system("sudo chown pi:pi /tmp/es-shutdown")
                 pid = int(line.split(None, 1)[0])
                 os.kill(pid, signal.SIGTERM)
             except Exception, e:
