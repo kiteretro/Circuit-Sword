@@ -421,9 +421,13 @@ def doShutdown():
         path = line.split(None, 1)[1]
         if path.startswith('/opt/retropie/supplementary/emulationstation/emulationstation'):
             es_process_found = True
-            open('/tmp/es-shutdown', 'a').close()
-            pid = int(line.split(None, 1)[0])
-            os.kill(pid, signal.SIGTERM)
+            try:
+                open('/tmp/es-shutdown', 'a').close()
+                pid = int(line.split(None, 1)[0])
+                os.kill(pid, signal.SIGTERM)
+            except Exception, e:
+                logging.error("Power off error: " + str(e.output))
+                pass
     
     if es_process_found:
         time.sleep(5)
