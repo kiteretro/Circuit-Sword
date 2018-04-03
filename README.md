@@ -25,6 +25,8 @@ https://github.com/kiteretro/Circuit-Sword/releases
 1. Download the appropriate image for your board, and then unzip and write the .img to an SD card (e.g. using win32diskimager)
 2. That's it, power on and you are ready to go! No further steps required!
 
+This image is provided to make it easier to debug and get the thing booted properly. The images were built using the scripts in the `build` directory. You can create your own images with the steps found inside. The source image came from https://retropie.org.uk/
+
 ## Installing on top of a fresh retropie installation
 NOTE: You should upgrade the kernel to at least 4.14.y and install the RTL8723BS module for Wifi to work!
 NOTE: You could do this by following the 'upgrade kernel' steps in the build folder.
