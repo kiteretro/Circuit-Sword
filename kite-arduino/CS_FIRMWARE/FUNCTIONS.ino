@@ -173,7 +173,7 @@ void setVolInc(bool t) {
   setVol(v);
 }
 
-void setVol(uint8_t t) {
+void setVolNow(uint8_t t) {
   // Boundary check
   uint8_t v = constrain(t, VOL_MIN, VOL_MAX);
 
@@ -182,6 +182,10 @@ void setVol(uint8_t t) {
   }
   
   cfg.vol_val = v;
+}
+
+void setVol(uint8_t t) {
+  setVolNow(t);
 
 #ifdef DEBUG
   Serial.print("VOLUME[");
@@ -220,9 +224,24 @@ void serialWrite2(uint16_t data) {
 //--------------------------------------------------------------------------------------
 // Check EEPROM is ok and read contents
 void eepromCheck() {
-  // To make sure there are settings, and they are YOURS!
-  // If nothing is found it will use the default settings.
-  if (EEPROM.read(EEPROM_START + 0) == EEPROM_VERSION) {
+
+  // Assume valid unless proven otherwise
+  bool valid = true;
+
+  // Check the compile date
+  for (uint8_t x = 0; x < BUILD_DATE_LEN; x++) {
+    if (build_date[x] != EEPROM.read(EEPROM_START + 1 + x)) {
+      valid = false;
+    }
+  }
+
+  // Check version
+  if (EEPROM.read(EEPROM_START + 0) != EEPROM_VERSION) {
+    valid = false;
+  }
+
+  // Read if valid, reset if not
+  if (valid) {
     eepromRead();
   } else {
     eepromWrite();

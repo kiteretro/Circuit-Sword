@@ -223,11 +223,11 @@ void setGamepad() {
 #if defined(USE_VOLUME_DIGITAL) && !defined(USE_ALT_PINS_VOLUME_DIGITAL)
     if (btns[B_C1]) {
       setVolInc(VOL_DOWN);
-      delay(200);
+      cs_delay(200);
     }
     if (btns[B_C2]) {
       setVolInc(VOL_UP);
-      delay(200);
+      cs_delay(200);
     }
 #else
   if (btns[B_C1]) {
@@ -247,11 +247,11 @@ void setGamepad() {
 #if defined(USE_VOLUME_DIGITAL) && defined(USE_ALT_PINS_VOLUME_DIGITAL)
   if (!digitalRead(PIN_VOL_D_ALT_DOWN)) {
       setVolInc(VOL_DOWN);
-      delay(200);
+      cs_delay(200);
     }
     if (!digitalRead(PIN_VOL_D_ALT_UP)) {
       setVolInc(VOL_UP);
-      delay(200);
+      cs_delay(200);
     }
 #endif
 
@@ -272,11 +272,11 @@ void setGamepad() {
       xx = 0;
     }
 
-#ifdef INVERT_X1
-    xx = constrain(map(xx, cfg.xmin1+50, cfg.xmax1-50, 32678, -32678), -32678, 32678);
-#else
-    xx = constrain(map(xx, cfg.xmin1+50, cfg.xmax1-50, -32678, 32678), -32678, 32678);
-#endif
+    if (cfg.xinvert1) {
+      xx = constrain(map(xx, cfg.xmin1+PULLBACK, cfg.xmax1-PULLBACK, 32678, -32678), -32678, 32678);
+    } else {
+      xx = constrain(map(xx, cfg.xmin1+PULLBACK, cfg.xmax1-PULLBACK, -32678, 32678), -32678, 32678);
+    }
 
     if (yy > cfg.dz) {
       yy -= cfg.dz;
@@ -286,11 +286,11 @@ void setGamepad() {
       yy = 0;
     }
 
-#ifdef INVERT_Y1
-    yy = constrain(map(yy, cfg.ymin1+50, cfg.ymax1-50, 32678, -32678), -32678, 32678);
-#else
-    yy = constrain(map(yy, cfg.ymin1+50, cfg.ymax1-50, -32678, 32678), -32678, 32678);
-#endif
+    if (cfg.yinvert1) {
+      yy = constrain(map(yy, cfg.ymin1+PULLBACK, cfg.ymax1-PULLBACK, 32678, -32678), -32678, 32678);
+    } else {
+      yy = constrain(map(yy, cfg.ymin1+PULLBACK, cfg.ymax1-PULLBACK, -32678, 32678), -32678, 32678);
+    }
 
     Gamepad.xAxis(xx);
     Gamepad.yAxis(yy);
@@ -317,11 +317,11 @@ void setGamepad() {
       xx = 0;
     }
 
-#ifdef INVERT_X2
-    xx = constrain(map(xx, cfg.xmin2+50, cfg.xmax2-50, 32678, -32678), -32678, 32678);
-#else
-    xx = constrain(map(xx, cfg.xmin2+50, cfg.xmax2-50, -32678, 32678), -32678, 32678);
-#endif
+    if (cfg.xinvert2) {
+      xx = constrain(map(xx, cfg.xmin2+PULLBACK, cfg.xmax2-PULLBACK, 32678, -32678), -32678, 32678);
+    } else {
+      xx = constrain(map(xx, cfg.xmin2+PULLBACK, cfg.xmax2-PULLBACK, -32678, 32678), -32678, 32678);
+    }
 
     if (yy > cfg.dz) {
       yy -= cfg.dz;
@@ -331,11 +331,11 @@ void setGamepad() {
       yy = 0;
     }
 
-#ifdef INVERT_Y2
-    yy = constrain(map(yy, cfg.ymin2+50, cfg.ymax2-50, 32678, -32678), -32678, 32678);
-#else
-    yy = constrain(map(yy, cfg.ymin2+50, cfg.ymax2-50, -32678, 32678), -32678, 32678);
-#endif
+    if (cfg.yinvert2) {
+      yy = constrain(map(yy, cfg.ymin2+PULLBACK, cfg.ymax2-PULLBACK, 32678, -32678), -32678, 32678);
+    } else {
+      yy = constrain(map(yy, cfg.ymin2+PULLBACK, cfg.ymax2-PULLBACK, -32678, 32678), -32678, 32678);
+    }
 
     Gamepad.rxAxis(xx);
     Gamepad.ryAxis(yy);
@@ -408,7 +408,7 @@ void setModes() {
     }
 
     // Max 5Hz
-    delay(200);
+    cs_delay(200);
   }
 }
 
@@ -427,8 +427,15 @@ void readAnalogData() {
 
 #ifdef USE_VOLUME_ANALOG
   if (cfg.is_a_vol) {
+    static uint16_t a_vol_last = 101;
     uint16_t a_vol = constrain(analogRead(PIN_A_VOL), VOL_A_MIN, VOL_A_MAX);
-    setVol(map(a_vol, VOL_A_MIN, VOL_A_MAX, VOL_MIN, VOL_MAX));
+    a_vol = map(a_vol, VOL_A_MIN, VOL_A_MAX, VOL_MIN, VOL_MAX);
+
+    // Only set on change
+    if (a_vol != a_vol_last) {
+      setVolNow(a_vol);
+      a_vol_last = a_vol;
+    }
   }
 #endif
 }
@@ -453,6 +460,12 @@ void calibrateJoystick() {
   cfg.is_a_vol = false;
 
 #ifdef USE_VOLUME_ANALOG
+  if(analogRead(PIN_A_VOL) < 1020) {
+    pinMode(PIN_A_VOL, OUTPUT);
+    delay(200);
+    pinMode(PIN_A_VOL, INPUT);
+    delay(50);
+  }
   uint16_t av = analogRead(PIN_A_VOL);
   if(av > 250 && av < 1000) {
     cfg.is_a_vol = 1;
@@ -472,6 +485,14 @@ void calibrateJoystick() {
   int16_t xmax1 = 0;
   int16_t ymax1 = 0;
 
+  if(analogRead(PIN_JOY1_X) < 1020 && analogRead(PIN_JOY1_Y) < 1020) {
+    pinMode(PIN_JOY1_X, OUTPUT);
+    pinMode(PIN_JOY1_Y, OUTPUT);
+    delay(200);
+    pinMode(PIN_JOY1_X, INPUT);
+    pinMode(PIN_JOY1_Y, INPUT);
+    delay(50);
+  }
   uint16_t x1 = analogRead(PIN_JOY1_X);
   xmin1 = x1;
   xmax1 = x1;
@@ -482,7 +503,7 @@ void calibrateJoystick() {
   ymid1 = y1;
 
   bool joy1_ok = 1;
-  if (y1 < 20 || x1 < 20) {
+  if (y1 < 200 || x1 < 200) {
     joy1_ok = 0;
   }
 #endif
@@ -496,17 +517,26 @@ void calibrateJoystick() {
   int16_t xmax2 = 0;
   int16_t ymax2 = 0;
 
+  if(analogRead(PIN_JOY2_X) < 1020 && analogRead(PIN_JOY2_Y) < 1020) {
+    pinMode(PIN_JOY2_X, OUTPUT);
+    pinMode(PIN_JOY2_Y, OUTPUT);
+    delay(200);
+    pinMode(PIN_JOY2_X, INPUT);
+    pinMode(PIN_JOY2_Y, INPUT);
+    delay(50);
+  }
   uint16_t x2 = analogRead(PIN_JOY2_X);
   xmin2 = x2;
   xmax2 = x2;
   xmid2 = x2;
+  
   uint16_t y2 = analogRead(PIN_JOY2_Y);
   ymin2 = y2;
   ymax2 = y2;
   ymid2 = y2;
 
   bool joy2_ok = 1;
-  if (y2 < 20 || x2 < 20) {
+  if (y2 < 200 || x2 < 200) {
     joy2_ok = 0;
   }
 #endif
@@ -614,9 +644,9 @@ void calibrateJoystick() {
     }
 #endif
     
-    delay(100);
+    delay(40);
     led(LED_OFF);
-    delay(100);
+    delay(40);
   }
 
   // JOY 1

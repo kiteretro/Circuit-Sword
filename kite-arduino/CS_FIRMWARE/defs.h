@@ -102,7 +102,7 @@
 #define FREEZE_DURATION 1000
 
 // EEPROM
-#define EEPROM_VERSION 3
+#define EEPROM_VERSION 5
 #define EEPROM_START   0
 
 // MISC
@@ -117,6 +117,7 @@
 
 //List of versions, MAX is 15 (4bits)
 #define HARDWARE_CSO_V1_1E 1
+#define HARDWARE_CSO_V1_2A 2
 
 #define MODECHECK_A0       1 //Read voltage on A0 to determine board power check
 #define MODECHECK_VBATHIGH 2 //Read the VBAT voltage to determine board power check, HIGH = OFF
@@ -131,8 +132,10 @@
 #define FAILED_TIMEOUT_NO_END "F1"
 #define FAILED_NOT_EVEN_ARGS  "F2"
 
-#define STATUS_MODE    0
-#define STATUS_WIFI    1
-#define STATUS_AUD     2
-#define STATUS_INFO    3
+#define STATUS_MODE     0
+#define STATUS_WIFI     1
+#define STATUS_AUD      2
+#define STATUS_INFO     3
+#define STATUS_AVOL     4
+#define STATUS_DPAD_JOY 5
 
