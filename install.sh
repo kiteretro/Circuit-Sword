@@ -177,7 +177,7 @@ execute "rm -rf $DEST/tmp/python-serial"
 
 # Enable /tmp as a tmpfs (ramdisk)
 if [[ $(grep '/ramdisk' $DEST/etc/fstab) == "" ]] ; then
-  execute "echo 'tmpfs    /ramdisk    tmpfs    defaults,noatime,nosuid,size=5m    0 0' >> $DEST/etc/fstab"
+  execute "echo 'tmpfs    /ramdisk    tmpfs    defaults,noatime,nosuid,size=1m    0 0' >> $DEST/etc/fstab"
 fi
 
 # Prepare for service install
