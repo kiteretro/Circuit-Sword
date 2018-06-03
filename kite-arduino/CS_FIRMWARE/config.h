@@ -26,15 +26,16 @@
 //#define MODEL MODEL_CSPOCKET
 
 // Board versions
-#define HARDWARE HARDWARE_CSO_V1_1E
+//#define HARDWARE HARDWARE_CSO_V1_1E
+#define HARDWARE HARDWARE_CSO_V1_2A
 
 // Options
 //#define DEBUG //Print out a load of debug messages. YOU NEED THE SERIAL MONITOR ALWAYS OPEN OTHERWISE THE BUFFER FILLS UP
 //#define NOMODE //Disable the use of the 'mode' button completely
 //#define CONFIG_WIFI_DEFAULT_OFF
 //#define USE_OLD_BUTTON_COMBOS //Changes UP/DOWN to do brightness instead
-//#define USE_VOLUME_DIGITAL // Use CC1/CC2 or the rocker switch for volume
-//#define USE_ALT_PINS_VOLUME_DIGITAL // Alternative digital volume pins
+//#define USE_VOLUME_DIGITAL // Use CC1/CC2 or the rocker switch for volume (CC1/CC2)
+//#define USE_ALT_PINS_VOLUME_DIGITAL // Alternative digital volume pins (AL1/AL2)
 #define USE_AUTODIM
 
 // Default Hardware pins
@@ -55,6 +56,7 @@
 
 // Custom hardware bits
 #if HARDWARE == HARDWARE_CSO_V1_1E
+#elif HARDWARE == HARDWARE_CSO_V1_2A
 #else
 #error "ERROR: HARDWARE not defined at the top of config.h, please set it!"
 #endif
@@ -140,10 +142,12 @@
 // Joystick settings
 #define CALIBTIME 10      // Time in seconds to calibrate the joystick
 #define DEADZONE 50       // ADC value for 'deadzone' of joystick
-//#define INVERT_X1        // Invert the X1 axis
-#define INVERT_Y1        // Invert the Y1 axis
-//#define INVERT_X2        // Invert the X2 axis
-#define INVERT_Y2        // Invert the Y2 axis
+#define PULLBACK 100       // Amount to pullback from edge (to make perfect square of movement)
+
+#define INVERT_X1 true   // Invert the X1 axis
+#define INVERT_Y1 false   // Invert the Y1 axis
+#define INVERT_X2 true   // Invert the X2 axis
+#define INVERT_Y2 false   // Invert the Y2 axis
 
 // Auto dim
 #define AUTODIM_TIMEOUT 600 * 2 //secs*2 of no input to dim (10mins)

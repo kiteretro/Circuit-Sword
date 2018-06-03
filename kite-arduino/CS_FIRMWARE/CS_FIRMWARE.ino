@@ -76,10 +76,15 @@
 #include "HID-Project.h" //https://github.com/NicoHood/HID
 #include <EEPROM.h>
 
+// BUILD DATE
+#define BUILD_DATE_LEN 15
+static uint8_t build_date[BUILD_DATE_LEN] = { __DATE__[0], __DATE__[1], __DATE__[2], __DATE__[5], __DATE__[6], __DATE__[7], __DATE__[8], __DATE__[9], __DATE__[10], __TIME__[0], __TIME__[1], __TIME__[3], __TIME__[4], __TIME__[6], __TIME__[7] };
+
 // Configuration data (loaded from EEPROM)
 struct Config {
   // Version info
   uint8_t version  = EEPROM_VERSION;
+  uint8_t build_date[BUILD_DATE_LEN] = {};
   // Hardware settings
   uint8_t bl_val   = BL_MAX;
   uint8_t wifi_val = 1;
@@ -89,21 +94,25 @@ struct Config {
   bool is_a_vol = 0;
   bool is_dpad_joy = 0;
   // Joystick settings
-  int16_t xmid1 = 0;
-  int16_t ymid1 = 0;
-  int16_t xmin1 = 0;
-  int16_t ymin1 = 0;
-  int16_t xmax1 = 0;
-  int16_t ymax1 = 0;
-  int16_t xmid2 = 0;
-  int16_t ymid2 = 0;
-  int16_t xmin2 = 0;
-  int16_t ymin2 = 0;
-  int16_t xmax2 = 0;
-  int16_t ymax2 = 0;
+  int16_t xmid1 = 511;
+  int16_t ymid1 = 511;
+  int16_t xmin1 = 211;
+  int16_t ymin1 = 211;
+  int16_t xmax1 = 811;
+  int16_t ymax1 = 811;
+  int16_t xmid2 = 511;
+  int16_t ymid2 = 511;
+  int16_t xmin2 = 211;
+  int16_t ymin2 = 211;
+  int16_t xmax2 = 811;
+  int16_t ymax2 = 811;
   int16_t dz    = DEADZONE;
   bool iscalib1 = 0;
   bool iscalib2 = 0;
+  bool xinvert1 = INVERT_X1; //JOY1X
+  bool yinvert1 = INVERT_Y1; //JOY1Y
+  bool xinvert2 = INVERT_X2; //JOY2X
+  bool yinvert2 = INVERT_Y2; //JOY2Y
 } cfg;
 
 static uint8_t model = MODEL;
@@ -171,9 +180,15 @@ void setup() {
   pinMode(PIN_A_VOL, INPUT);
 #endif
 
+  // Pre-config
 #ifdef CONFIG_WIFI_DEFAULT_OFF
   cfg.wifi_val = 0;
 #endif
+
+  // Set build date (temporary)
+  for (uint8_t x = 0; x < BUILD_DATE_LEN; x++) {
+    cfg.build_date[x] = build_date[x];
+  }
 
   // Read from EEPROM
   eepromCheck();
@@ -181,8 +196,9 @@ void setup() {
   // Always default to no info mode
   cfg.info_val = 0;
   cfg.is_dpad_joy = 0;
+  cfg.aud_val = 1;
 
-  // Set defaults
+  // Set defaults from config
   setBl(cfg.bl_val);
   setWifi(cfg.wifi_val);
   setAud(cfg.aud_val);
@@ -206,6 +222,7 @@ void setup() {
 
   // Calibrate joystick?
   if (btns[B_START]) {
+    delay(2000);
     calibrateJoystick();
   }
   
@@ -309,6 +326,26 @@ void loop() {
     tnow3 = millis();
   }
   
+}
+
+//--------------------------------------------------------------------------------------
+// DELAY WHILE PROCESSING SERIAL
+void cs_delay(uint16_t ms) {
+
+  bool looping = true;
+  uint32_t tnowdelay = millis();
+  while (looping) {
+
+    // Do serial stuff
+    processSerial();
+
+    // Timeout reached?
+    if (millis() - tnowdelay > ms) {
+      looping = false;
+    } else {
+      delayMicroseconds(50);
+    }
+  }
 }
 
 //--------------------------------------------------------------------------------------
@@ -441,12 +478,21 @@ void processSerial() {
         Serial.print("OK");
         break;
         
-      case 's': //get status (b[][][][][INFO][AUD][WIFI][MODE])
+      case 's': //get status (b[][][DPAD][AVOL][INFO][AUD][WIFI][MODE])
         bitWrite(tmp, STATUS_MODE, mode);
         bitWrite(tmp, STATUS_WIFI, cfg.wifi_val);
         bitWrite(tmp, STATUS_AUD, cfg.aud_val);
         bitWrite(tmp, STATUS_INFO, cfg.info_val);
+        bitWrite(tmp, STATUS_AVOL, cfg.is_a_vol);
+        bitWrite(tmp, STATUS_DPAD_JOY, cfg.is_dpad_joy);
+        bitWrite(tmp, 6, 0);
+        bitWrite(tmp, 7, 0);
         Serial.write(tmp);
+        break;
+
+      case 'd': //Toggle dpad joy
+        cfg.is_dpad_joy = !cfg.is_dpad_joy;
+        Serial.print("OK");
         break;
 
       case 'm': //get model (b[V][V][V][V][M][M][M][M])
@@ -463,6 +509,87 @@ void processSerial() {
 
       case 'J': //Calibrate joystick
         calibrateJoystick();
+        Serial.print("OK");
+        break;
+
+      case '(': //Invert Joy1 X
+        cfg.xinvert1 = !cfg.xinvert1;
+        eepromWrite();
+        Serial.print("OK");
+        break;
+
+      case ')': //Invert Joy1 Y
+        cfg.yinvert1 = !cfg.yinvert1;
+        eepromWrite();
+        Serial.print("OK");
+        break;
+
+      case '[': //Invert Joy2 X
+        cfg.xinvert2 = !cfg.xinvert2;
+        eepromWrite();
+        Serial.print("OK");
+        break;
+
+      case ']': //Invert Joy2 Y
+        cfg.yinvert2 = !cfg.yinvert2;
+        eepromWrite();
+        Serial.print("OK");
+        break;
+
+      case '{': //Toggle Joy1
+        cfg.iscalib1 = !cfg.iscalib1;
+        eepromWrite();
+        Serial.print("OK");
+        break;
+
+      case '}': //Toggle Joy2
+        cfg.iscalib2 = !cfg.iscalib2;
+        eepromWrite();
+        Serial.print("OK");
+        break;
+
+      case 'j': //Get joy config
+        bitWrite(tmp, 0, cfg.iscalib1);
+        bitWrite(tmp, 1, cfg.iscalib2);
+        bitWrite(tmp, 2, cfg.xinvert1);
+        bitWrite(tmp, 3, cfg.yinvert1);
+        bitWrite(tmp, 4, cfg.xinvert2);
+        bitWrite(tmp, 5, cfg.yinvert2);
+        bitWrite(tmp, 6, 0);
+        bitWrite(tmp, 7, 0);
+        Serial.write(tmp);
+        break;
+
+      case 'u': //Get JOY1X ADC
+        serialWrite2(analogRead(PIN_JOY1_X));
+        break;
+
+      case 'o': //Get JOY1Y ADC
+        serialWrite2(analogRead(PIN_JOY1_Y));
+        break;
+
+      case 'p': //Get JOY2X ADC
+        serialWrite2(analogRead(PIN_JOY2_X));
+        break;
+
+      case 'y': //Get JOY2Y ADC
+        serialWrite2(analogRead(PIN_JOY2_Y));
+        break;
+
+      case 't': //Get AVOL ADC
+        serialWrite2(analogRead(PIN_A_VOL));
+        break;
+
+      case 'C': //Toggle AVOL
+        cfg.is_a_vol = !cfg.is_a_vol;
+        eepromWrite();
+        Serial.print("OK");
+        break;
+
+      case 'D': //Build date
+        for (uint8_t x = 0; x < BUILD_DATE_LEN; x++) {
+          Serial.print(cfg.build_date[x]);
+        }
         Serial.print("OK");
         break;
         
