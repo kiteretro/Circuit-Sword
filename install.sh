@@ -139,7 +139,9 @@ execute "chmod +x $BINDIR/flash-arduino.sh"
 # Fix splashsreen sound
 if exists "$DEST/etc/init.d/asplashscreen" ; then
   execute "sed -i \"s/ *both/ alsa/\" $DEST/etc/init.d/asplashscreen"
-  #execute "sed -i \"s/ -b/ -o alsa -b/\" $PIHOMEDIR/RetroPie-Setup/scriptmodules/supplementary/splashscreen.sh"
+fi
+if exists "$DEST/opt/retropie/supplementary/splashscreen/asplashscreen.sh" ; then
+  execute "sed -i \"s/ *both/ alsa/\" $DEST/opt/retropie/supplementary/splashscreen/asplashscreen.sh"
 fi
 
 # Fix N64 audio
