@@ -156,12 +156,14 @@ if ! exists "$PIHOMEDIR/.vice/sdl-vicerc" ; then
 fi
 
 # Install the pixel theme and set it as default
-execute "mkdir -p $DEST/etc/emulationstation/themes"
-execute "rm -rf $DEST/etc/emulationstation/themes/pixel"
-execute "git clone --recursive --depth 1 --branch master https://github.com/kiteretro/es-theme-pixel.git $DEST/etc/emulationstation/themes/pixel"
-execute "cp $BINDIR/settings/es_settings.cfg $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
-execute "sed -i \"s/carbon/pixel/\" $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
-execute "chown $USER:$USER $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
+if ! exists "$DEST/etc/emulationstation/themes/pixel/system/theme.xml" ; then
+  execute "mkdir -p $DEST/etc/emulationstation/themes"
+  execute "rm -rf $DEST/etc/emulationstation/themes/pixel"
+  execute "git clone --recursive --depth 1 --branch master https://github.com/kiteretro/es-theme-pixel.git $DEST/etc/emulationstation/themes/pixel"
+  execute "cp $BINDIR/settings/es_settings.cfg $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
+  execute "sed -i \"s/carbon/pixel/\" $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
+  execute "chown $USER:$USER $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
+fi
 
 # Enable 30sec autosave on roms
 execute "sed -i \"s/# autosave_interval =/autosave_interval = \"30\"/\" $DEST/opt/retropie/configs/all/retroarch.cfg"
