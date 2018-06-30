@@ -90,8 +90,9 @@ struct Config {
   uint8_t wifi_val = 1;
   uint8_t aud_val  = 1;
   uint8_t info_val = 0;
-  uint8_t vol_val = 50;
+  uint8_t vol_val = VOL_DEFAULT;
   bool is_a_vol = 0;
+  bool is_d_vol = 1;
   bool is_dpad_joy = 0;
   // Joystick settings
   int16_t xmid1 = 511;
@@ -185,6 +186,10 @@ void setup() {
   cfg.wifi_val = 0;
 #endif
 
+#ifdef USE_VOLUME_DIGITAL
+  cfg.is_d_vol = 1;
+#endif
+
   // Set build date (temporary)
   for (uint8_t x = 0; x < BUILD_DATE_LEN; x++) {
     cfg.build_date[x] = build_date[x];
@@ -212,7 +217,7 @@ void setup() {
   TCA_init();
 
   // Alt volume combo mode
-#if defined(USE_VOLUME_DIGITAL) && defined(USE_ALT_PINS_VOLUME_DIGITAL)
+#if defined(USE_ALT_PINS_VOLUME_DIGITAL)
   pinMode(PIN_VOL_D_ALT_UP, INPUT_PULLUP);
   pinMode(PIN_VOL_D_ALT_DOWN, INPUT_PULLUP);
 #endif
@@ -478,14 +483,14 @@ void processSerial() {
         Serial.print("OK");
         break;
         
-      case 's': //get status (b[][][DPAD][AVOL][INFO][AUD][WIFI][MODE])
+      case 's': //get status (b[][DVOL][DPAD][AVOL][INFO][AUD][WIFI][MODE])
         bitWrite(tmp, STATUS_MODE, mode);
         bitWrite(tmp, STATUS_WIFI, cfg.wifi_val);
         bitWrite(tmp, STATUS_AUD, cfg.aud_val);
         bitWrite(tmp, STATUS_INFO, cfg.info_val);
         bitWrite(tmp, STATUS_AVOL, cfg.is_a_vol);
         bitWrite(tmp, STATUS_DPAD_JOY, cfg.is_dpad_joy);
-        bitWrite(tmp, 6, 0);
+        bitWrite(tmp, STATUS_DVOL, cfg.is_d_vol);
         bitWrite(tmp, 7, 0);
         Serial.write(tmp);
         break;
@@ -582,6 +587,19 @@ void processSerial() {
 
       case 'C': //Toggle AVOL
         cfg.is_a_vol = !cfg.is_a_vol;
+        if (cfg.is_a_vol == 1) {
+          cfg.is_d_vol = 0;
+        }
+        eepromWrite();
+        Serial.print("OK");
+        break;
+
+      case 'z': //Toggle DVOL
+        cfg.is_d_vol = !cfg.is_d_vol;
+        if (cfg.is_d_vol == 1) {
+          cfg.is_a_vol = 0;
+          cfg.vol_val = VOL_DEFAULT;
+        }
         eepromWrite();
         Serial.print("OK");
         break;

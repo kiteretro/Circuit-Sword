@@ -61,6 +61,7 @@ mapping = {
   's_info': 3,
   's_avol': 4,
   's_dpad_joy': 5,
+  's_dvol': 6,
 
   'j_iscalib1': 0,
   'j_iscalib2': 1,
@@ -132,9 +133,9 @@ def readSerial(msg, length=1):
       endcounter = 0
       for c in ret:
         if c == '?':
-          logging.warning("WARNING: Bad return for command [%s]" % msg)
+          logging.error("ERROR: Bad return for command [%s] - Not supported! Update the Arduino code.." % msg)
           endcounter = 2
-        if c == 'O':
+        elif c == 'O':
           endcounter = 1
         elif endcounter == 1 and c == 'K':
           endcounter = 2
@@ -144,7 +145,7 @@ def readSerial(msg, length=1):
       # Check if end of bytes
       if endcounter == 2:
         break
-
+      
   except Exception as err:
     logging.error("ERROR: Serial get failed! %s" % err)
     return None
@@ -203,6 +204,7 @@ def get_status():
       's_info': None,
       's_avol': None,
       's_dpad_joy': None,
+      's_dvol': None,
     },
     's'
   )
@@ -231,6 +233,9 @@ def get_avol_adc():
   return convert_data({}, 't', is_binary=False, length=2)
 def toggle_avol():
   readSerial('C', length=2)
+  return
+def toggle_dvol():
+  readSerial('z', length=2)
   return
 
 def get_backlight():
@@ -320,6 +325,7 @@ def process_menu():
   print("\nVOLUME INFORMATION")
   print("Amp enabled:            %s" % c['status']['s_aud'])
   print("Current volume:         %s%%" % c['volume'])
+  print("Digital rocker enabled: %s" % c['status']['s_dvol'])
   print("Analog volume enabled:  %s" % c['status']['s_avol'])
   print("Analog volume adc:      %s" % c['volume_adc'])
 
@@ -348,6 +354,7 @@ MAIN MENU
 6 - Toggle JOY 1 enabled config
 7 - Toggle JOY 2 enabled config
 8 - Toggle Analog Volume enabled config
+9 - Toggle Digital Volume Rocker enabled config
 ENTER - Refresh information
 X - Quit
 
@@ -381,6 +388,9 @@ Enter selection followed by ENTER: """)
   elif key == '8':
     print(">>> Inverting ANALOG VOLUME enabled config..")
     toggle_avol()
+  elif key == '9':
+    print(">>> Inverting DIGITAL VOLUME ROCKER enabled config..")
+    toggle_dvol()
   elif key == 'x' or key == 'X':
     sys.exit(0)
   else:

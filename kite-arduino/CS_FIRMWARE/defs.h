@@ -84,6 +84,7 @@
 #define VOL_MIN 0
 #define VOL_MAX 100
 #define VOL_INC 5
+#define VOL_DEFAULT 50
 
 #define VOL_A_MIN 20
 #define VOL_A_MAX 1000
@@ -138,4 +139,5 @@
 #define STATUS_INFO     3
 #define STATUS_AVOL     4
 #define STATUS_DPAD_JOY 5
+#define STATUS_DVOL     6
 

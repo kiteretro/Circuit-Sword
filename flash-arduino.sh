@@ -147,7 +147,29 @@ sleep 2
 
 # Reset the AVR
 echo "Resetting Arduino.."
-execute "stty -F $COM ispeed 1200 ospeed 1200"
+python - <<END
+import serial
+import time
+import os
+
+serport = "$COM"
+
+ser = serial.Serial(serport, 57600)
+ser.close()
+
+ser.baudrate = 1200
+ser.open()
+ser.setRTS(True)
+ser.setDTR(False)
+ser.close()
+
+while not os.path.exists(serport):
+  print("Waiting for reset..")
+  time.sleep(1)
+
+print("Reset completed")
+END
+
 sleep 2
 
 # Flash

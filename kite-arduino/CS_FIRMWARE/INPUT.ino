@@ -220,7 +220,8 @@ void setGamepad() {
   }
 
   // CC1/CC2 function
-#if defined(USE_VOLUME_DIGITAL) && !defined(USE_ALT_PINS_VOLUME_DIGITAL)
+#if !defined(USE_ALT_PINS_VOLUME_DIGITAL)
+  if (cfg.is_d_vol == 1) {
     if (btns[B_C1]) {
       setVolInc(VOL_DOWN);
       cs_delay(200);
@@ -229,6 +230,19 @@ void setGamepad() {
       setVolInc(VOL_UP);
       cs_delay(200);
     }
+  } else {
+    if (btns[B_C1]) {
+      Gamepad.press(GP_C1);
+    } else {
+      Gamepad.release(GP_C1);
+    }
+  
+    if (btns[B_C2]) {
+      Gamepad.press(GP_C2);
+    } else {
+      Gamepad.release(GP_C2);
+    }
+  }
 #else
   if (btns[B_C1]) {
     Gamepad.press(GP_C1);
@@ -244,14 +258,16 @@ void setGamepad() {
 #endif
 
   // Alt volume combo mode
-#if defined(USE_VOLUME_DIGITAL) && defined(USE_ALT_PINS_VOLUME_DIGITAL)
-  if (!digitalRead(PIN_VOL_D_ALT_DOWN)) {
-      setVolInc(VOL_DOWN);
-      cs_delay(200);
-    }
-    if (!digitalRead(PIN_VOL_D_ALT_UP)) {
-      setVolInc(VOL_UP);
-      cs_delay(200);
+#if defined(USE_ALT_PINS_VOLUME_DIGITAL)
+  if (cfg.is_d_vol == 1) {
+    if (!digitalRead(PIN_VOL_D_ALT_DOWN)) {
+        setVolInc(VOL_DOWN);
+        cs_delay(200);
+      }
+      if (!digitalRead(PIN_VOL_D_ALT_UP)) {
+        setVolInc(VOL_UP);
+        cs_delay(200);
+      }
     }
 #endif
 
