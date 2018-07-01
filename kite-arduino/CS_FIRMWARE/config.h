@@ -51,8 +51,8 @@
 #define PIN_AUD 13
 #define PIN_JOY1_X A9  //D9
 #define PIN_JOY1_Y A10 //D10
-#define PIN_VOL_D_ALT_UP 0 //RX0
-#define PIN_VOL_D_ALT_DOWN 1 //TX0
+#define PIN_VOL_D_ALT_UP 1 //TX0
+#define PIN_VOL_D_ALT_DOWN 0 //RX0
 
 // Custom hardware bits
 #if HARDWARE == HARDWARE_CSO_V1_1E
