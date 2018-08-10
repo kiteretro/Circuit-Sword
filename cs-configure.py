@@ -384,7 +384,7 @@ Enter selection followed by ENTER: """)
     set_joystick_config(toggle_j1=True)
   elif key == '7':
     print(">>> Inverting JOY 2 enabled config..")
-    set_joystick_config(toggle_j1=True)
+    set_joystick_config(toggle_j2=True)
   elif key == '8':
     print(">>> Inverting ANALOG VOLUME enabled config..")
     toggle_avol()
