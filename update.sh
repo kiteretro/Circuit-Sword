@@ -27,6 +27,12 @@ if [ "$EUID" -ne 0 ]
   exit 1
 fi
 
+if [[ $1 != "" ]] ; then
+  BRANCH=$1
+else
+  BRANCH="master"
+fi
+
 # Stop HUD
 echo "Stopping HUD.."
 systemctl stop cs-osd.service > /dev/null  # Silience this as it may not exist
@@ -37,8 +43,9 @@ systemctl stop dpi-cloner.service
 
 # Update git
 echo "Updating HUD from git.."
-git fetch --all
-git reset --hard origin/master
+git reset --hard HEAD
+git pull
+git checkout $BRANCH
 
 # Set permissions on the initial required
 chmod +x install.sh update.sh
