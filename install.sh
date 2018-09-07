@@ -127,14 +127,8 @@ fi
 execute "cp $BINDIR/settings/autostart.sh $DEST/opt/retropie/configs/all/autostart.sh"
 execute "chown $USER:$USER $DEST/opt/retropie/configs/all/autostart.sh"
 
-# Chmod executables
-execute "chmod +x $BINDIR/cs-osd/cs-osd/cs-osd"
-execute "chmod +x $BINDIR/rfkill/rfkill"
-execute "chmod +x $BINDIR/dpi-cloner/dpi-cloner"
-execute "chmod +x $BINDIR/cs-tester/pngview"
-execute "chmod +x $BINDIR/install.sh"
-execute "chmod +x $BINDIR/update.sh"
-execute "chmod +x $BINDIR/flash-arduino.sh"
+# Copy ES safe shutdown script
+execute "cp $BINDIR/settings/cs_shutdown.sh $DEST/opt/cs_shutdown.sh"
 
 # Fix splashsreen sound
 if exists "$DEST/etc/init.d/asplashscreen" ; then
@@ -165,7 +159,7 @@ if ! exists "$DEST/etc/emulationstation/themes/pixel/system/theme.xml" ; then
   execute "chown $USER:$USER $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 fi
 
-# Enable 30sec autosave on roms
+# Enable 30sec autosave
 execute "sed -i \"s/# autosave_interval =/autosave_interval = \"30\"/\" $DEST/opt/retropie/configs/all/retroarch.cfg"
 
 # Disable 'wait for network' on boot
@@ -175,34 +169,48 @@ execute "rm -f $DEST/etc/systemd/system/dhcpcd.service.d/wait.conf"
 execute "cp $BINDIR/wifi-firmware/rtl* $DEST/lib/firmware/rtlwifi/"
 
 # Install python-serial
-execute "dpkg -x $BINDIR/settings/python-serial_2.6-1.1_all.deb $DEST/tmp/python-serial"
-execute "cp -r $DEST/tmp/python-serial/* $DEST/"
-execute "rm -rf $DEST/tmp/python-serial"
+execute "dpkg -x $BINDIR/settings/python-serial_2.6-1.1_all.deb $DEST/"
 
-# Enable /tmp as a tmpfs (ramdisk)
+# Install rfkill
+execute "dpkg -x $BINDIR/settings/rfkill_0.5-1_armhf.deb $DEST/"
+
+# Install avrdude
+execute "dpkg -x $BINDIR/settings/avrdude_6.3+r1425-1+rpt1_armhf.deb $DEST/"
+execute "dpkg -x $BINDIR/settings/libftdi1_0.20-4_armhf.deb $DEST/"
+
+# Install wiringPi
+execute "dpkg -x $BINDIR/settings/wiringpi_2.46_armhf.deb $DEST/"
+
+# Enable /ramdisk as a tmpfs (ramdisk)
 if [[ $(grep '/ramdisk' $DEST/etc/fstab) == "" ]] ; then
-  execute "echo 'tmpfs    /ramdisk    tmpfs    defaults,noatime,nosuid,size=1m    0 0' >> $DEST/etc/fstab"
+  execute "echo 'tmpfs    /ramdisk    tmpfs    defaults,noatime,nosuid,size=100k    0 0' >> $DEST/etc/fstab"
 fi
 
-# Prepare for service install
+# Remove the old service
 execute "rm -f $DEST/etc/systemd/system/cs-osd.service"
 execute "rm -f $DEST/etc/systemd/system/multi-user.target.wants/cs-osd.service"
 execute "rm -f $DEST/lib/systemd/system/cs-osd.service"
+
+# Prepare for service install
+execute "rm -f $DEST/etc/systemd/system/cs-hud.service"
+execute "rm -f $DEST/etc/systemd/system/multi-user.target.wants/cs-hud.service"
+execute "rm -f $DEST/lib/systemd/system/cs-hud.service"
+
 execute "rm -f $DEST/lib/systemd/system/dpi-cloner.service"
 
-# Install OSD service
-execute "cp $BINDIR/cs-osd/cs-osd.service $DEST/lib/systemd/system/cs-osd.service"
+# Install HUD service
+execute "cp $BINDIR/cs-hud/cs-hud.service $DEST/lib/systemd/system/cs-hud.service"
 
-#execute "systemctl enable cs-osd.service"
-execute "ln -s $DEST/lib/systemd/system/cs-osd.service $DEST/etc/systemd/system/cs-osd.service"
-execute "ln -s $DEST/lib/systemd/system/cs-osd.service $DEST/etc/systemd/system/multi-user.target.wants/cs-osd.service"
+#execute "systemctl enable cs-hud.service"
+execute "ln -s $DEST/lib/systemd/system/cs-hud.service $DEST/etc/systemd/system/cs-hud.service"
+execute "ln -s $DEST/lib/systemd/system/cs-hud.service $DEST/etc/systemd/system/multi-user.target.wants/cs-hud.service"
 
 # Install DPI-CLONER service
 execute "cp $BINDIR/dpi-cloner/dpi-cloner.service $DEST/lib/systemd/system/dpi-cloner.service"
 
 if [[ $DEST == "" ]] ; then
   execute "systemctl daemon-reload"
-  execute "systemctl start cs-osd.service"
+  execute "systemctl start cs-hud.service"
 fi
 
 #####################################################################

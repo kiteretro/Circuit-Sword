@@ -140,9 +140,10 @@ else
   exit 0
 fi
 
-# Stop OSD
-echo "Stopping OSD.."
-execute "systemctl stop cs-osd.service"
+# Stop HUD
+echo "Stopping HUD.."
+systemctl stop cs-osd.service > /dev/null
+systemctl stop cs-hud.service
 sleep 2
 
 # Reset the AVR
@@ -200,5 +201,5 @@ echo "DONE!"
 
 echo
 echo "## PLEASE REBOOT FOR ANY CHANGES TO TAKE EFFECT ##"
-echo "##    THE OSD WILL NOT WORK WITHOUT A REBOOT    ##"
+echo "##    THE HUD WILL NOT WORK WITHOUT A REBOOT    ##"
 echo

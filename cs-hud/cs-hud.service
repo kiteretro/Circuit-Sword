@@ -1,13 +1,12 @@
 [Unit]
-Description=Circuit Sword OSD Service
+Description=Circuit Sword HUD/OSD Service
  
 [Service]
-ExecStart=/usr/bin/python /home/pi/Circuit-Sword/cs-osd/cs-osd.py
-StandardOutput=null
+ExecStart=/home/pi/Circuit-Sword/cs-hud/cs-hud
  
 [Install]
 WantedBy=multi-user.target
-Alias=cs-osd.service
+Alias=cs-hud.service
 
 [Journal]
 #Storage=volatile
