@@ -1,7 +1,19 @@
+# NOTICE: This file is managed by the Circuit Sword software and is used to
+# facilitate HDMI/DPI switching. Do not edit any lines that start with "# CS .."
+
+# The following settings are used by the software to determine the state
+# For instance, the STATE of 'IDLE' means that this file is complete and won't
+#   change. The state of 'REBOOTING_TO_HDMI' means this file is in transition to
+#   becoming HDMI enabled and so you should NOT edit the file at all in this case.
+# If all goes wrong, restore the config.txt file from the backup:
+#   sudo cp ~/Circuit-Sword/settings/config.txt /boot/config.txt
+
+# CS CONFIG VERSION: 1.0
+# CS CONFIG STATE: IDLE
+
 # For more options and information see
 # http://www.raspberrypi.org/documentation/configuration/config-txt.md
 # Some settings may impact device functionality. See link above for details
-
 # Additional overlays and parameters are documented /boot/overlays/README
 
 # Some settings from the orignal config.txt
@@ -29,22 +41,26 @@ dtoverlay=sdio,poll_once=false
 # SD overclock (ONLY IF SD SUPPORTS IT)
 #dtoverlay=sdtweak,overclock_50=100
 
+# Always enable the HDMI interface
+hdmi_force_hotplug=1
+
 #######################
 #### HDMI SETTINGS ####
 #######################
+# CS START HDMI SETTINGS
 
-# uncomment if hdmi display is not detected and composite is being output
-hdmi_force_hotplug=1
- 
-# uncomment to force a specific HDMI mode (here we are forcing 800x480!)
+## Set HDMI output to 800x480
 #hdmi_group=2
 #hdmi_mode=1
 #hdmi_mode=87
 #hdmi_cvt=800 480 60 6 0 0 0
 
+# CS END HDMI SETTINGS
+
 #######################
 #### DPI SETTINGS #####
 #######################
+# CS START DPI SETTINGS
 
 # Enable DPI
 dtoverlay=dpi18
@@ -61,12 +77,15 @@ dpi_mode=87
 framebuffer_width=320
 framebuffer_height=240
 display_rotate=2
-dpi_output_format=24597 #rgb
+dpi_output_format=24597
 hdmi_timings=320 1 20 30 38 240 1 4 3 10 0 0 0 60 0 9600000 1
 
 # Enable 640x480 custom display mode
-# framebuffer_width=640
-# framebuffer_height=480
-# display_rotate=3
-# dpi_output_format=287269 #bgr
-# hdmi_timings=480 1 5 5 14 640 1 3 3 3 0 0 0 60 0 32000000 1
+#framebuffer_width=640
+#framebuffer_height=480
+#display_rotate=3
+#dpi_output_format=287269
+#hdmi_timings=480 1 5 5 14 640 1 3 3 3 0 0 0 60 0 32000000 1
+
+# CS END DPI SETTINGS
+

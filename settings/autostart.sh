@@ -20,8 +20,11 @@
 
 # This file exists in '/opt/retropie/configs/all/autostart.sh'
 
-CONFIGFILE="/boot/config-cs.txt"
+# Restart to hdmi on boot to fix any changes to file
+sudo /usr/bin/python /home/pi/Circuit-Sword/settings/reboot_to_hdmi.py --check
 
+# Load config file and action
+CONFIGFILE="/boot/config-cs.txt"
 if [ -f $CONFIGFILE ]; then
   
   source $CONFIGFILE
