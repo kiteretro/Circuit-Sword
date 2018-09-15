@@ -21,7 +21,7 @@
 #
 
 HDMI_SWITCHER_PATH="/home/pi/Circuit-Sword/settings/reboot_to_hdmi.py"
-CMD="/usr/bin/python $HDMI_SWITCHER_PATH --hdmi --reboot"
+CMD="sudo /usr/bin/python $HDMI_SWITCHER_PATH --hdmi --reboot"
 
 # Check script exists first
 if [ -f $HDMI_SWITCHER_PATH ]; then

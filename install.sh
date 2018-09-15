@@ -163,7 +163,7 @@ fi
 execute "cp $BINDIR/settings/reboot_to_hdmi.sh $PIHOMEDIR/RetroPie/retropiemenu/"
 execute "cp $BINDIR/settings/reboot_to_hdmi.png $PIHOMEDIR/RetroPie/retropiemenu/icons/"
 if [[ ! $(grep "reboot_to_hdmi" "$DEST/opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml") ]] ; then
-  execute "sed -i 's|</gameList>|        <game>\n                <path>./reboot_to_hdmi.sh</path>\n                <name>One time reboot to HDMI</name>\n                <desc>Enable HDMI and automatically reboot to apply. The next power cycle will revert back to the internal screen. It is normal when enabled for the internal screen to remain grey.</desc>\n                <image>./icons/reboot_to_hdmi.png</image>\n                <playcount>1</playcount>\n                <lastplayed>20180912T193205</lastplayed>\n        </game>\n</gamelist>|g' $DEST/opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml"
+  execute "sed -i 's|</gameList>|  <game>\n    <path>./reboot_to_hdmi.sh</path>\n    <name>One time reboot to HDMI</name>\n    <desc>Enable HDMI and automatically reboot to apply. The next power cycle will revert back to the internal screen. It is normal when enabled for the internal screen to remain grey.</desc>\n    <image>/home/pi/RetroPie/retropiemenu/icons/reboot_to_hdmi.png</image>\n  </game>\n</gameList>|g' $DEST/opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml"
 fi
 
 # Enable 30sec autosave
