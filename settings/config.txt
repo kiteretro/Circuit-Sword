@@ -58,18 +58,18 @@ hdmi_force_hotplug=1
 ## Disable overscan
 #disable_overscan=1
 
-## Set HDMI output to 800x480
-#hdmi_group=2
-#hdmi_mode=87
-#hdmi_cvt=800 480 60 6 0 0 0
+## Set HDMI output to 1280x720 (720p)
+#hdmi_group=1
+#hdmi_mode=4
 
 ### Set HDMI output to 1920x1080 (1080p)
 ##hdmi_group=1
 ##hdmi_mode=16
 
-### Set HDMI output to 1280x720 (720p)
-##hdmi_group=1
-##hdmi_mode=4
+### Set HDMI output to 800x480
+##hdmi_group=2
+##hdmi_mode=87
+##hdmi_cvt=800 480 60 6 0 0 0
 
 # CS END HDMI SETTINGS
 
