@@ -7,9 +7,3 @@ ExecStart=/home/pi/Circuit-Sword/cs-hud/cs-hud
 [Install]
 WantedBy=multi-user.target
 Alias=cs-hud.service
-
-[Journal]
-#Storage=volatile
-#RuntimeMaxUse=100K
-#RuntimeMaxFileSize=100K
-#RuntimeMaxFiles=3
