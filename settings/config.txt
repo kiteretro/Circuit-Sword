@@ -5,6 +5,9 @@
 # For instance, the STATE of 'IDLE' means that this file is complete and won't
 #   change. The state of 'REBOOTING_TO_HDMI' means this file is in transition to
 #   becoming HDMI enabled and so you should NOT edit the file at all in this case.
+# This works by removing 1x '#' symbol from each line within the HDMI block. This
+#   means anything with one '#' will end up being enabled. Anything with 2x '#'s 
+#   will remain disabled (e.g. comments, or alternative modes)
 # If all goes wrong, restore the config.txt file from the backup:
 #   sudo cp ~/Circuit-Sword/settings/config.txt /boot/config.txt
 
@@ -49,11 +52,24 @@ hdmi_force_hotplug=1
 #######################
 # CS START HDMI SETTINGS
 
+## Enable HDMI audio
+#dtparam=audio=on
+
+## Disable overscan
+#disable_overscan=1
+
 ## Set HDMI output to 800x480
 #hdmi_group=2
-#hdmi_mode=1
 #hdmi_mode=87
 #hdmi_cvt=800 480 60 6 0 0 0
+
+### Set HDMI output to 1920x1080 (1080p)
+##hdmi_group=1
+##hdmi_mode=16
+
+### Set HDMI output to 1280x720 (720p)
+##hdmi_group=1
+##hdmi_mode=4
 
 # CS END HDMI SETTINGS
 

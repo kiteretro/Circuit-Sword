@@ -108,10 +108,16 @@ execute "chown -R $USER:$USER $BINDIR"
 #####################################################################
 # Copy required to /boot
 
+# Config.txt bits
 if ! exists "$DESTBOOT/config_ORIGINAL.txt" ; then
   execute "cp $DESTBOOT/config.txt $DESTBOOT/config_ORIGINAL.txt"
   execute "cp $BINDIR/settings/config.txt $DESTBOOT/config.txt"
   execute "cp $BINDIR/settings/config-cs.txt $DESTBOOT/config-cs.txt"
+fi
+
+# Special case where config.txt has been updated on upgrade
+if [[ ! $(grep "CS CONFIG VERSION: 1.0" "$DESTBOOT/config.txt") ]] ; then
+  execute "cp $BINDIR/settings/config.txt $DESTBOOT/config.txt"
 fi
 
 #####################################################################
@@ -119,6 +125,7 @@ fi
 
 # Copy USB sound
 execute "cp $BINDIR/settings/asound.conf $DEST/etc/asound.conf"
+execute "cp $BINDIR/settings/alsa-base.conf $DEST/etc/modprobe.d/alsa-base.conf"
 
 # Copy autostart
 if ! exists "$DEST/opt/retropie/configs/all/autostart_ORIGINAL.sh" ; then
@@ -163,7 +170,7 @@ fi
 execute "cp $BINDIR/settings/reboot_to_hdmi.sh $PIHOMEDIR/RetroPie/retropiemenu/"
 execute "cp $BINDIR/settings/reboot_to_hdmi.png $PIHOMEDIR/RetroPie/retropiemenu/icons/"
 if [[ ! $(grep "reboot_to_hdmi" "$DEST/opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml") ]] ; then
-  execute "sed -i 's|</gameList>|  <game>\n    <path>./reboot_to_hdmi.sh</path>\n    <name>One time reboot to HDMI</name>\n    <desc>Enable HDMI and automatically reboot to apply. The next power cycle will revert back to the internal screen. It is normal when enabled for the internal screen to remain grey.</desc>\n    <image>/home/pi/RetroPie/retropiemenu/icons/reboot_to_hdmi.png</image>\n  </game>\n</gameList>|g' $DEST/opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml"
+  execute "sed -i 's|</gameList>|  <game>\n    <path>./reboot_to_hdmi.sh</path>\n    <name>One Time Reboot to HDMI</name>\n    <desc>Enable HDMI and automatically reboot for it to apply. The subsequent power cycle will revert back to the internal screen. It is normal when enabled for the internal screen to remain grey/white.</desc>\n    <image>/home/pi/RetroPie/retropiemenu/icons/reboot_to_hdmi.png</image>\n  </game>\n</gameList>|g' $DEST/opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml"
 fi
 
 # Enable 30sec autosave
