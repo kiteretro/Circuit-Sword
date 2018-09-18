@@ -167,13 +167,13 @@ if ! exists "$DEST/etc/emulationstation/themes/pixel/system/theme.xml" ; then
 fi
 
 # Install runcommand splash
-if ! exists "$DEST/opt/retropie/configs/desktop/launching.png" ; then
-  execute "rm -rf /tmp/es-runcommand-splash"
-  execute "git clone --recursive --depth 1 --branch master https://github.com/ehettervik/es-runcommand-splash.git /tmp/es-runcommand-splash"
-  execute "chown -R $USER:$USER /tmp/es-runcommand-splash"
-  execute "cp -rp /tmp/es-runcommand-splash/* $DEST/opt/retropie/configs"
-  execute "rm -rf /tmp/es-runcommand-splash"
-fi
+#if ! exists "$DEST/opt/retropie/configs/desktop/launching.png" ; then
+#  execute "rm -rf /tmp/es-runcommand-splash"
+#  execute "git clone --recursive --depth 1 --branch master https://github.com/ehettervik/es-runcommand-splash.git /tmp/es-runcommand-splash"
+#  execute "chown -R $USER:$USER /tmp/es-runcommand-splash"
+#  execute "cp -rp /tmp/es-runcommand-splash/* $DEST/opt/retropie/configs"
+#  execute "rm -rf /tmp/es-runcommand-splash"
+#fi
 
 # Install the reboot to hdmi scripts
 execute "cp $BINDIR/settings/reboot_to_hdmi.sh $PIHOMEDIR/RetroPie/retropiemenu/reboot_to_hdmi.sh"

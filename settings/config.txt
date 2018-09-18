@@ -54,6 +54,7 @@ hdmi_force_hotplug=1
 
 ## Enable HDMI audio
 #dtparam=audio=on
+#hdmi_drive=2
 
 ## Disable overscan
 #disable_overscan=1
