@@ -90,11 +90,11 @@ mapping = {
 
 #-------------------------------------------------------------------------------
 
-# Check cs-osd not running (as it uses the serial port)
-p = os.popen("service cs-osd status").readlines()
+# Check cs-hud not running (as it uses the serial port)
+p = os.popen("service cs-hud status").readlines()
 for line in p:
   if "active (running)" in line:
-    logging.exception("ERROR: 'cs-osd' is still running, stop it first with 'sudo service cs-osd stop'")
+    logging.exception("ERROR: 'cs-hud' is still running, stop it first with 'sudo service cs-hud stop'")
     sys.exit(1)
 
 # Set up a port

@@ -108,10 +108,16 @@ execute "chown -R $USER:$USER $BINDIR"
 #####################################################################
 # Copy required to /boot
 
+# Config.txt bits
 if ! exists "$DESTBOOT/config_ORIGINAL.txt" ; then
   execute "cp $DESTBOOT/config.txt $DESTBOOT/config_ORIGINAL.txt"
   execute "cp $BINDIR/settings/config.txt $DESTBOOT/config.txt"
   execute "cp $BINDIR/settings/config-cs.txt $DESTBOOT/config-cs.txt"
+fi
+
+# Special case where config.txt has been updated on upgrade
+if [[ ! $(grep "CS CONFIG VERSION: 1.0" "$DESTBOOT/config.txt") ]] ; then
+  execute "cp $BINDIR/settings/config.txt $DESTBOOT/config.txt"
 fi
 
 #####################################################################
@@ -119,6 +125,7 @@ fi
 
 # Copy USB sound
 execute "cp $BINDIR/settings/asound.conf $DEST/etc/asound.conf"
+execute "cp $BINDIR/settings/alsa-base.conf $DEST/etc/modprobe.d/alsa-base.conf"
 
 # Copy autostart
 if ! exists "$DEST/opt/retropie/configs/all/autostart_ORIGINAL.sh" ; then
@@ -127,14 +134,8 @@ fi
 execute "cp $BINDIR/settings/autostart.sh $DEST/opt/retropie/configs/all/autostart.sh"
 execute "chown $USER:$USER $DEST/opt/retropie/configs/all/autostart.sh"
 
-# Chmod executables
-execute "chmod +x $BINDIR/cs-osd/cs-osd/cs-osd"
-execute "chmod +x $BINDIR/rfkill/rfkill"
-execute "chmod +x $BINDIR/dpi-cloner/dpi-cloner"
-execute "chmod +x $BINDIR/cs-tester/pngview"
-execute "chmod +x $BINDIR/install.sh"
-execute "chmod +x $BINDIR/update.sh"
-execute "chmod +x $BINDIR/flash-arduino.sh"
+# Copy ES safe shutdown script
+execute "cp $BINDIR/settings/cs_shutdown.sh $DEST/opt/cs_shutdown.sh"
 
 # Fix splashsreen sound
 if exists "$DEST/etc/init.d/asplashscreen" ; then
@@ -153,6 +154,7 @@ fi
 if ! exists "$PIHOMEDIR/.vice/sdl-vicerc" ; then
   execute "mkdir -p $PIHOMEDIR/.vice/"
   execute "echo 'SoundOutput=2' > $PIHOMEDIR/.vice/sdl-vicerc"
+  execute "chown -R $USER:$USER $PIHOMEDIR/.vice/"
 fi
 
 # Install the pixel theme and set it as default
@@ -160,12 +162,27 @@ if ! exists "$DEST/etc/emulationstation/themes/pixel/system/theme.xml" ; then
   execute "mkdir -p $DEST/etc/emulationstation/themes"
   execute "rm -rf $DEST/etc/emulationstation/themes/pixel"
   execute "git clone --recursive --depth 1 --branch master https://github.com/kiteretro/es-theme-pixel.git $DEST/etc/emulationstation/themes/pixel"
-  execute "cp $BINDIR/settings/es_settings.cfg $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
+  execute "cp -p $BINDIR/settings/es_settings.cfg $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
   execute "sed -i \"s/carbon/pixel/\" $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
-  execute "chown $USER:$USER $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 fi
 
-# Enable 30sec autosave on roms
+# Install runcommand splash
+#if ! exists "$DEST/opt/retropie/configs/desktop/launching.png" ; then
+#  execute "rm -rf /tmp/es-runcommand-splash"
+#  execute "git clone --recursive --depth 1 --branch master https://github.com/ehettervik/es-runcommand-splash.git /tmp/es-runcommand-splash"
+#  execute "chown -R $USER:$USER /tmp/es-runcommand-splash"
+#  execute "cp -rp /tmp/es-runcommand-splash/* $DEST/opt/retropie/configs"
+#  execute "rm -rf /tmp/es-runcommand-splash"
+#fi
+
+# Install the reboot to hdmi scripts
+execute "cp $BINDIR/settings/reboot_to_hdmi.sh $PIHOMEDIR/RetroPie/retropiemenu/reboot_to_hdmi.sh"
+execute "cp -p $BINDIR/settings/reboot_to_hdmi.png $PIHOMEDIR/RetroPie/retropiemenu/icons/reboot_to_hdmi.png"
+if [[ ! $(grep "reboot_to_hdmi" "$DEST/opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml") ]] ; then
+  execute "sed -i 's|</gameList>|  <game>\n    <path>./reboot_to_hdmi.sh</path>\n    <name>One Time Reboot to HDMI</name>\n    <desc>Enable HDMI and automatically reboot for it to apply. The subsequent power cycle will revert back to the internal screen. It is normal when enabled for the internal screen to remain grey/white.</desc>\n    <image>/home/pi/RetroPie/retropiemenu/icons/reboot_to_hdmi.png</image>\n  </game>\n</gameList>|g' $DEST/opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml"
+fi
+
+# Enable 30sec autosave
 execute "sed -i \"s/# autosave_interval =/autosave_interval = \"30\"/\" $DEST/opt/retropie/configs/all/retroarch.cfg"
 
 # Disable 'wait for network' on boot
@@ -175,34 +192,48 @@ execute "rm -f $DEST/etc/systemd/system/dhcpcd.service.d/wait.conf"
 execute "cp $BINDIR/wifi-firmware/rtl* $DEST/lib/firmware/rtlwifi/"
 
 # Install python-serial
-execute "dpkg -x $BINDIR/settings/python-serial_2.6-1.1_all.deb $DEST/tmp/python-serial"
-execute "cp -r $DEST/tmp/python-serial/* $DEST/"
-execute "rm -rf $DEST/tmp/python-serial"
+execute "dpkg -x $BINDIR/settings/python-serial_2.6-1.1_all.deb $DEST/"
 
-# Enable /tmp as a tmpfs (ramdisk)
+# Install rfkill
+execute "dpkg -x $BINDIR/settings/rfkill_0.5-1_armhf.deb $DEST/"
+
+# Install avrdude
+execute "dpkg -x $BINDIR/settings/avrdude_6.3+r1425-1+rpt1_armhf.deb $DEST/"
+execute "dpkg -x $BINDIR/settings/libftdi1_0.20-4_armhf.deb $DEST/"
+
+# Install wiringPi
+execute "dpkg -x $BINDIR/settings/wiringpi_2.46_armhf.deb $DEST/"
+
+# Enable /ramdisk as a tmpfs (ramdisk)
 if [[ $(grep '/ramdisk' $DEST/etc/fstab) == "" ]] ; then
-  execute "echo 'tmpfs    /ramdisk    tmpfs    defaults,noatime,nosuid,size=1m    0 0' >> $DEST/etc/fstab"
+  execute "echo 'tmpfs    /ramdisk    tmpfs    defaults,noatime,nosuid,size=100k    0 0' >> $DEST/etc/fstab"
 fi
 
-# Prepare for service install
+# Remove the old service
 execute "rm -f $DEST/etc/systemd/system/cs-osd.service"
 execute "rm -f $DEST/etc/systemd/system/multi-user.target.wants/cs-osd.service"
 execute "rm -f $DEST/lib/systemd/system/cs-osd.service"
+
+# Prepare for service install
+execute "rm -f $DEST/etc/systemd/system/cs-hud.service"
+execute "rm -f $DEST/etc/systemd/system/multi-user.target.wants/cs-hud.service"
+execute "rm -f $DEST/lib/systemd/system/cs-hud.service"
+
 execute "rm -f $DEST/lib/systemd/system/dpi-cloner.service"
 
-# Install OSD service
-execute "cp $BINDIR/cs-osd/cs-osd.service $DEST/lib/systemd/system/cs-osd.service"
+# Install HUD service
+execute "cp $BINDIR/cs-hud/cs-hud.service $DEST/lib/systemd/system/cs-hud.service"
 
-#execute "systemctl enable cs-osd.service"
-execute "ln -s $DEST/lib/systemd/system/cs-osd.service $DEST/etc/systemd/system/cs-osd.service"
-execute "ln -s $DEST/lib/systemd/system/cs-osd.service $DEST/etc/systemd/system/multi-user.target.wants/cs-osd.service"
+#execute "systemctl enable cs-hud.service"
+execute "ln -s $DEST/lib/systemd/system/cs-hud.service $DEST/etc/systemd/system/cs-hud.service"
+execute "ln -s $DEST/lib/systemd/system/cs-hud.service $DEST/etc/systemd/system/multi-user.target.wants/cs-hud.service"
 
 # Install DPI-CLONER service
 execute "cp $BINDIR/dpi-cloner/dpi-cloner.service $DEST/lib/systemd/system/dpi-cloner.service"
 
 if [[ $DEST == "" ]] ; then
   execute "systemctl daemon-reload"
-  execute "systemctl start cs-osd.service"
+  execute "systemctl start cs-hud.service"
 fi
 
 #####################################################################

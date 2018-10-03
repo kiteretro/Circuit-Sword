@@ -70,7 +70,7 @@ def testUSB():
   else:
     print bcolors.FAIL + "USB AUDIO   = [FAIL]" + bcolors.ENDC
 
-  if "erminus Technology Inc. 4-Port HUB" in lsusb:
+  if "erminus Technology Inc" in lsusb:
     print bcolors.OKGREEN + "USB HUB     = [ OK ]" + bcolors.ENDC
   else:
     print bcolors.FAIL + "USB HUB     = [FAIL]" + bcolors.ENDC

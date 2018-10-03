@@ -20,43 +20,30 @@
 # along with this repo. If not, see <http://www.gnu.org/licenses/>.
 #
 
-# THIS MUST BE RUN FROM THE GIT CURRENT DIRECTORY (cd your way there)
+HDMI_SWITCHER_PATH="/home/pi/Circuit-Sword/settings/reboot_to_hdmi.py"
+CMD="sudo /usr/bin/python $HDMI_SWITCHER_PATH --hdmi --reboot"
 
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root (sudo)"
+# Check script exists first
+if [ -f $HDMI_SWITCHER_PATH ]; then
+  echo "[i] Main switcher script exists"
+else
+  echo
+  echo "====================================="
+  echo "[!] ERROR: The switcher file '$HDMI_SWITCHER_PATH' is missing!!"
+  echo "====================================="
+  sleep 3
   exit 1
 fi
 
-if [[ $1 != "" ]] ; then
-  BRANCH=$1
-else
-  BRANCH="master"
+# Execute it!
+eval "$CMD"
+ret=$?
+
+if [ $ret != 0 ] ; then
+  echo
+  echo "====================================="
+  echo "[!] ERROR: Command exited with '$ret'"
+  echo "====================================="
+  sleep 3
+  exit 1
 fi
-
-# Stop HUD
-echo "Stopping HUD.."
-systemctl stop cs-osd.service > /dev/null  # Silience this as it may not exist
-systemctl stop cs-hud.service
-
-echo "Stopping CLONER.."
-systemctl stop dpi-cloner.service
-
-# Update git
-echo "Updating HUD from git.."
-git reset --hard HEAD
-git pull
-git checkout $BRANCH
-
-# Set permissions on the initial required
-chmod +x install.sh update.sh
-
-# Perform re-install
-echo "Performing script setup.."
-./install.sh YES
-
-# Start HUD
-echo "Starting HUD.."
-systemctl start cs-hud.service
-
-# DONE
-echo "DONE!"

@@ -146,7 +146,7 @@ uint8_t dim_btns_char_last[2] = {0,0};
 // MAIN SETUP
 void setup() {
   // Startup delay
-  delay(1000);
+  delay(500);
   
   // Set up SERIAL
   Serial.begin(115200);

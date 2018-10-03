@@ -37,9 +37,8 @@ NOTE: You could do this by following the 'upgrade kernel' steps in the build fol
 4. Enable WIFI and SSH (use USB wifi if onboard not detected)
 5. `git clone https://github.com/kiteretro/Circuit-Sword`
 6. `cd Circuit-Sword`
-7. `chmod +x update.sh install.sh`
-8. `sudo ./install.sh YES` 
-9. `reboot`
+7. `sudo ./install.sh YES` 
+8. `reboot`
 
 ## Building your own image
 Follow the instructions in the 'build' directory.

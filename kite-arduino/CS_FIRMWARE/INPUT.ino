@@ -444,7 +444,8 @@ void readAnalogData() {
 #ifdef USE_VOLUME_ANALOG
   if (cfg.is_a_vol) {
     static uint16_t a_vol_last = 101;
-    uint16_t a_vol = constrain(analogRead(PIN_A_VOL), VOL_A_MIN, VOL_A_MAX);
+    uint16_t a_vol_raw = (analogRead(PIN_A_VOL) + analogRead(PIN_A_VOL) + analogRead(PIN_A_VOL) + analogRead(PIN_A_VOL)) >> 2;
+    uint16_t a_vol = constrain(a_vol_raw, VOL_A_MIN, VOL_A_MAX);
     a_vol = map(a_vol, VOL_A_MIN, VOL_A_MAX, VOL_MIN, VOL_MAX);
 
     // Only set on change
