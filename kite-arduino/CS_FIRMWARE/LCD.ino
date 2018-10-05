@@ -137,41 +137,44 @@ void lcdInit_26_320_1() {
 }
 
 void lcdInit_35_640() {
-  //lcdWriteEn(1);
   lcdCommand(0xB9); //enable extention command
   lcdData(0xFF); 
   lcdData(0X83);
   lcdData(0X63);
-  //lcdWriteEn(0);
   
-  //lcdWriteEn(1);
   lcdCommand(0xB1);  //set power control
   lcdData(0x81);
   lcdData(0x30);
-  lcdData(0x04);
-  lcdData(0x34);
-  lcdData(0x02); 
+  lcdData(0x08); //was 0x04
+  lcdData(0x36); //was 0x34
+  lcdData(0x01); //was 0x02 
   lcdData(0x13); 
-  lcdData(0x11);
-  lcdData(0x00);
-  lcdData(0x3A);
-  lcdData(0x42);
-  lcdData(0x3F); 
-  lcdData(0x3F);
-  //lcdWriteEn(0);
+  lcdData(0x10); //was 0x11
+  lcdData(0x10); //was 0x00
+  lcdData(0x35); //was 0x3A
+  lcdData(0x3D); //was 0x42
+  lcdData(0x1A); //was 0x3F
+  lcdData(0x1A); //was 0x3F
   
-  //lcdWriteEn(1);
+  lcdCommand(0x3A); //colour mode
+  lcdData(0x60);  //262K-18bit/pixel
+  
+  lcdCommand(0x36); //Set panel 
+  lcdData(0x0A); //flip + BGR
+  
+  /*lcdCommand(0xC0); //new
+  lcdData(0x41); //new
+  lcdData(0x19); //new*/
+  
+  lcdCommand(0xBF); //PTBA
+  lcdData(0x00);
+  lcdData(0x10);
+  
+  lcdCommand(0xB3); //RGB interface polarity
+  lcdData(0x01);
+  
   lcdCommand(0xB4); //display waveform cycle
-  /*lcdData(0x04);
-  lcdData(0x12);
-  lcdData(0x72);
-  lcdData(0x12);
-  lcdData(0x06);
-  lcdData(0x03);
-  lcdData(0x54);
-  lcdData(0x03);
-  lcdData(0x4e);*/
-  lcdData(0x08); //NEW
+  lcdData(0x01); //was 0x08
   lcdData(0x12);
   lcdData(0x72);
   lcdData(0x12);
@@ -180,85 +183,57 @@ void lcdInit_35_640() {
   lcdData(0x54);
   lcdData(0x03);
   lcdData(0x4E);
-  //lcdWriteEn(0);
+  lcdData(0x00); //new
+  lcdData(0x00); //new
   
-  //lcdWriteEn(1);
-  lcdCommand(0xBF); //PTBA
-  lcdData(0x00);
-  lcdData(0x10);
-  //lcdWriteEn(0);
-  
-  //lcdWriteEn(1);
   lcdCommand(0xB6); //VCOM voltage
-  //lcdData(0x52);
-  lcdData(0x12); //NEW
-  //lcdWriteEn(0);
-  
-  //lcdWriteEn(1);
-  lcdCommand(0xB3); //RGB interface polarity
-  lcdData(0x01);
-  //lcdWriteEn(0);
-  
-  //lcdWriteEn(1);
-  lcdCommand(0x36); //Set panel 
-  lcdData(0x0A); //flip + BGR
-  //lcdWriteEn(0);
-  
-  //lcdWriteEn(1);
+  lcdData(0x33); //was 0x12
+
   lcdCommand(0xCC); //Set panel
   lcdData(0x02); //reverse
-  //lcdWriteEn(0);
   
-  //lcdWriteEn(1);
-  lcdCommand(0xE0); // Set Gamma 
-  lcdData(0x00); //NEW
-  lcdData(0x80);
-  lcdData(0x00);
-  lcdData(0x8C);
-  lcdData(0x13);
-  lcdData(0xA7);
-  lcdData(0x05);
-  lcdData(0x0D);
+  delay(120); //new
+
+  lcdCommand(0xE0); // Set Gamma 2.2
+  lcdData(0x01); //ALL NEW
+  lcdData(0x07);
+  lcdData(0x4C);
+  lcdData(0xB0);
+  lcdData(0x36);
+  lcdData(0x3F);
+  lcdData(0x06);
+  lcdData(0x49);
+  lcdData(0x51);
+  lcdData(0x96);
+  lcdData(0x18);
+  lcdData(0xD8);
+  lcdData(0x18);
   lcdData(0x50);
-  lcdData(0x14);
-  lcdData(0x16);
-  lcdData(0x55);
-  lcdData(0x16);
-  lcdData(0x87);
-  lcdData(0x03);
-  lcdData(0x00);
-  lcdData(0x80);
-  lcdData(0x00);
-  lcdData(0x8C);
   lcdData(0x13);
-  lcdData(0xA7);
-  lcdData(0x05);
-  lcdData(0x0D);
+  
+  lcdData(0x01);
+  lcdData(0x07);
+  lcdData(0x4C);
+  lcdData(0xB0);
+  lcdData(0x36);
+  lcdData(0x3F);
+  lcdData(0x06);
+  lcdData(0x49);
+  lcdData(0x51);
+  lcdData(0x96);
+  lcdData(0x18);
+  lcdData(0xD8);
+  lcdData(0x18);
   lcdData(0x50);
-  lcdData(0x14);
-  lcdData(0x16);
-  lcdData(0x55);
-  lcdData(0x16);
-  lcdData(0x87);
-  lcdData(0x03);
-  //lcdWriteEn(0);
+  lcdData(0x13);
   
-  //lcdWriteEn(1);
-  lcdCommand(0x3A); //colour mode
-  //lcdData(0x70);  //24bit/pixel
-  lcdData(0x60);  //262K-18bit/pixel
-  //lcdData(0x50);  //16bit/pixel
-  //lcdWriteEn(0);
+  delay(150); //new
   
-  //lcdWriteEn(1);
   lcdCommand(0x11); // Exit Sleep 
-  //lcdWriteEn(0);
-  delay(150); 
+
+  delay(200); 
   
-  //lcdWriteEn(1);
   lcdCommand(0x29); // Display on
-  //lcdWriteEn(0);
-  delay(150);
 }
 
 void lcdInit_32_800() {
