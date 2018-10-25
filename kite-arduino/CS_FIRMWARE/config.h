@@ -25,8 +25,7 @@
 //#define MODEL MODEL_CSADVANCE
 //#define MODEL MODEL_CSPOCKET
 
-// Board versions
-//#define HARDWARE HARDWARE_CSO_V1_1E
+// Board versions - YOU DO NOT NEED TO CHANGE THIS
 #define HARDWARE HARDWARE_CSO_V1_2A
 
 // Options
