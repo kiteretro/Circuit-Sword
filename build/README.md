@@ -7,12 +7,12 @@ cd Circuit-Sword/build
 
 chmod +x upgrade-kernel.sh build-image.sh
 
-wget https://github.com/RetroPie/RetroPie-Setup/releases/download/4.3/retropie-4.3-rpi2_rpi3.img.gz
-gunzip retropie-4.3-rpi2_rpi3.img.gz
+wget <base_image>.img.gz
+gunzip <base_image>.img.gz
 
-sudo ./upgrade-kernel.sh YES retropie-4.3-rpi2_rpi3.img pi_4.14.14-v7+.zip
+sudo ./upgrade-kernel.sh YES <base_image>.img pi_4.14.14-v7+.zip
 
-sudo ./build-image.sh YES retropie-4.3-rpi2_rpi3_pi_4.14.14-v7+.img
+sudo ./build-image.sh YES <base_image>_pi_4.14.14-v7+.img
 ```
 
 Burn resulting .img to SD and boot!

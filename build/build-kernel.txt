@@ -33,9 +33,9 @@ cp arch/arm/boot/zImage ../pi/$KERNEL.img
 sudo mkdir -p /mnt/fat32
 sudo mkdir -p /mnt/ext4
 
-wget https://github.com/RetroPie/RetroPie-Setup/releases/download/4.3/retropie-4.3-rpi2_rpi3.img.gz
-gunzip retropie-4.3-rpi2_rpi3.img.gz
-FILE=retropie-4.3-rpi2_rpi3.img
+wget <base_image>
+gunzip <base_image>.img.gz
+FILE=<base_image>.img
 
 sudo mount -o loop,offset=4194304 $FILE /mnt/fat32
 sudo mount -o loop,offset=63963136 $FILE /mnt/ext4

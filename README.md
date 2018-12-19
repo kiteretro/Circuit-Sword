@@ -25,13 +25,13 @@ https://github.com/kiteretro/Circuit-Sword/releases
 1. Download the appropriate image for your board, and then unzip and write the .img to an SD card (e.g. using win32diskimager)
 2. That's it, power on and you are ready to go! No further steps required!
 
-This image is provided to make it easier to debug and get the thing booted properly. The images were built using the scripts in the `build` directory. You can create your own images with the steps found inside. The source image came from https://retropie.org.uk/
+This image is provided to make it easier to debug and get the thing booted properly. The images were built using the scripts in the `build` directory. You can create your own images with the steps found inside.
 
-## Installing on top of a fresh retropie installation
+## Installing on top of a fresh distribution image
 NOTE: You should upgrade the kernel to at least 4.14.y and install the RTL8723BS module for Wifi to work!
 NOTE: You could do this by following the 'upgrade kernel' steps in the build folder.
 
-1. Download retropie from the official retropie site
+1. Download a base image
 2. Unzip and write the .img to an SD card (e.g. using win32diskimager)
 3. Boot with HDMI out or so
 4. Enable WIFI and SSH (use USB wifi if onboard not detected)
@@ -44,8 +44,8 @@ NOTE: You could do this by following the 'upgrade kernel' steps in the build fol
 Follow the instructions in the 'build' directory.
 
 # Updating your existing installation
-## Updating RetroPie
-Update retropie from the main retropie-setup. Once updated and rebooted, you will most likely also need to update the Circuit Sword software (see below) to re-apply any existing fixes that may have been undone by the update.
+## Updating Base Software
+Do not allow for 'kernel updates' when asked, press "NO". Once updated and rebooted, you will most likely also need to update the Circuit Sword software (see below) to re-apply any existing fixes that may have been undone by the update.
 
 ## Updating the Circuit Sword software
 The installation includes an update script! This will perform the necessary actions to pull latest changes and apply them to your running installation.
