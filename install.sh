@@ -146,12 +146,12 @@ if exists "$DEST/opt/retropie/supplementary/splashscreen/asplashscreen.sh" ; the
   execute "sed -i \"s/ *both/ alsa/\" $DEST/opt/retropie/supplementary/splashscreen/asplashscreen.sh"
 fi
 
-# Fix N64 audio
+# Fix audio
 if exists "$DEST/opt/retropie/emulators/mupen64plus/bin/mupen64plus.sh" ; then
   execute "sed -i \"s/mupen64plus-audio-omx/mupen64plus-audio-sdl/\" $DEST/opt/retropie/emulators/mupen64plus/bin/mupen64plus.sh"
 fi
 
-# Fix C64 audio
+# Fix audio
 if ! exists "$PIHOMEDIR/.vice/sdl-vicerc" ; then
   execute "mkdir -p $PIHOMEDIR/.vice/"
   execute "echo 'SoundOutput=2' > $PIHOMEDIR/.vice/sdl-vicerc"
