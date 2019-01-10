@@ -130,7 +130,7 @@ execute "cp $BINDIR/settings/alsa-base.conf $DEST/etc/modprobe.d/alsa-base.conf"
 # Copy autostart
 if ! exists "$DEST/opt/retropie/configs/all/autostart_ORIGINAL.sh" ; then
   execute "mv $DEST/opt/retropie/configs/all/autostart.sh $DEST/opt/retropie/configs/all/autostart_ORIGINAL.sh"
-  execute "echo '/home/pi/$GITHUBPROJECT/settings/kr_logo.png' > $DEST/etc/splashscreen.list"
+  execute "cp $BINDIR/settings/splashscreen.list $DEST/etc/splashscreen.list"
 fi
 execute "cp $BINDIR/settings/autostart.sh $DEST/opt/retropie/configs/all/autostart.sh"
 execute "chown $USER:$USER $DEST/opt/retropie/configs/all/autostart.sh"
