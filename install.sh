@@ -158,6 +158,15 @@ if ! exists "$PIHOMEDIR/.vice/sdl-vicerc" ; then
   execute "chown -R $USER:$USER $PIHOMEDIR/.vice/"
 fi
 
+# Fix Bluetooth Audio
+cat << EOF >> $DEST/opt/retropie/configs/all/runcommand-onstart.sh
+#!/bin/bash
+set -e
+index=`pacmd list-cards | grep bluez_card -B1 | grep index | awk '{print $2}'`
+pacmd set-card-profile $index off
+pacmd set-card-profile $index a2dp_sink
+EOF
+
 # Install the pixel theme and set it as default
 if ! exists "$DEST/etc/emulationstation/themes/pixel/system/theme.xml" ; then
   execute "mkdir -p $DEST/etc/emulationstation/themes"
