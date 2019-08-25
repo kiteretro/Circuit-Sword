@@ -1,11 +1,13 @@
-# Install
+# DEB package install (the preffered method)
+dpkg -i rtl8723bs-dkms_4.14_all.deb
+
+# DKMS manual Install
 copy rtl8723bs-4.14 to /usr/src/
 dkms add -m rtl8723bs -v 4.14
-dkms autoinstall -m rtl8723bs -v 4.14
+dkms build -m rtl8723bs -v 4.14
+dkms install -m rtl8723bs -v 4.14
 
 # Last resort help, if dkms doesn't work
 run fix-for-installed-kernel.sh
 it will try to install the correct module before reboot
 
-# ToDo
-pack this as a deb package
