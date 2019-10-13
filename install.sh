@@ -120,6 +120,9 @@ if [[ ! $(grep "CS CONFIG VERSION: 1.0" "$DESTBOOT/config.txt") ]] ; then
   execute "cp $BINDIR/settings/config.txt $DESTBOOT/config.txt"
 fi
 
+# Fix cmdline.txt for removing serial console
+execute "sed -i \"s/console=serial0,115200//\" $DESTBOOT/cmdline.txt"
+
 #####################################################################
 # Copy required to /
 
@@ -202,11 +205,15 @@ execute "rm -f $DEST/etc/systemd/system/dhcpcd.service.d/wait.conf"
 execute "rm -f $DEST/etc/systemd/system/multi-user.target.wants/wifi-country.service"
 
 # Copy wifi firmware
+execute "mkdir -p $DEST/lib/firmware/rtlwifi/"
 execute "cp $BINDIR/wifi-firmware/rtl* $DEST/lib/firmware/rtlwifi/"
 
 # Copy bluetooth firmware
 execute "mkdir -p $DEST/lib/firmware/rtl_bt/"
 execute "cp $BINDIR/bt-driver/rtlbt_* /lib/firmware/rtl_bt/"
+
+# Fix long delay of boot because looking for wrong serial port
+execute "sed -i \"s/dev-serial1.device/dev-ttyAMA0.device/\" $DEST/lib/systemd/system/hciuart.service"
 
 # Install python-serial
 execute "dpkg -x $BINDIR/settings/python-serial_2.6-1.1_all.deb $DEST/"

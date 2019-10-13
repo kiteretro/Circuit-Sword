@@ -11,7 +11,7 @@
 # If all goes wrong, restore the config.txt file from the backup:
 #   sudo cp ~/Circuit-Sword/settings/config.txt /boot/config.txt
 
-# CS CONFIG VERSION: 1.0
+# CS CONFIG VERSION: 1.1
 # CS CONFIG STATE: IDLE
 
 # For more options and information see
@@ -63,7 +63,7 @@ hdmi_force_hotplug=1
 ## Disable overscan
 #disable_overscan=1
 
-## Set HDMI output to 1280x720 (720p)
+## Set HDMI output to 1280x720 (720p) - Default
 #hdmi_group=1
 #hdmi_mode=4
 
@@ -109,4 +109,3 @@ hdmi_timings=320 1 20 30 38 240 1 4 3 10 0 0 0 60 0 9600000 1
 #hdmi_timings=480 1 5 5 14 640 1 3 3 3 0 0 0 60 0 32000000 1
 
 # CS END DPI SETTINGS
-

@@ -12,11 +12,11 @@ cat << EOF
 BT Audio Support is ready to use.
 
 Connect to the speaker through the GUI
-RetroPie -> BLUETOOTH -> Register and Connect to Bluetooth Device
+Menu -> BLUETOOTH -> Register and Connect to Bluetooth Device
 Select DisplayYesNo as agent
 
-Have RetroPie automatically connect to the speaker
-RetroPie -> BLUETOOTH -> Configure bluetooth connect mode
+Have Pi automatically connect to the speaker
+Menu -> BLUETOOTH -> Configure bluetooth connect mode
 Set connect mode to "background"
 
 Do a reboot
