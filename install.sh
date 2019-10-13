@@ -210,7 +210,7 @@ execute "cp $BINDIR/wifi-firmware/rtl* $DEST/lib/firmware/rtlwifi/"
 
 # Copy bluetooth firmware
 execute "mkdir -p $DEST/lib/firmware/rtl_bt/"
-execute "cp $BINDIR/bt-driver/rtlbt_* /lib/firmware/rtl_bt/"
+execute "cp $BINDIR/bt-driver/rtlbt_* $DEST/lib/firmware/rtl_bt/"
 
 # Fix long delay of boot because looking for wrong serial port
 execute "sed -i \"s/dev-serial1.device/dev-ttyAMA0.device/\" $DEST/lib/systemd/system/hciuart.service"
