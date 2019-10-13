@@ -1,0 +1,13 @@
+[Unit]
+Description=RTL8723 Bluetooth Service
+ 
+[Service]
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=RTL_BT
+
+ExecStart=/usr/bin/rtk_hciattach" -n -s 115200 "/dev/ttyAMA0" rtk_h5
+
+[Install]
+WantedBy=multi-user.target
+Alias=rtl-bluetooth.service

@@ -41,6 +41,10 @@ dtparam=audio=off
 # Enable SDIO wifi
 dtoverlay=sdio,poll_once=false
 
+# Enable RTL Bluetooth
+enable_uart=1
+dtoverlay=uart0,txd0_pin=32,rxd0_pin=33,pin_func=7
+
 # SD overclock (ONLY IF SD SUPPORTS IT)
 #dtoverlay=sdtweak,overclock_50=100
 
