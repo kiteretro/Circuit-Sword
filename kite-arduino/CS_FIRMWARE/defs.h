@@ -128,6 +128,7 @@
 #define LCD_26_320 1
 #define LCD_35_640 2
 #define LCD_32_800 3
+#define LCD_35_640_54P 4
 
 #define LCD_SUCCESS "OK"
 #define FAILED_TIMEOUT_NO_END "F1"

@@ -97,7 +97,14 @@ display_rotate=2
 dpi_output_format=24597
 hdmi_timings=320 1 20 30 38 240 1 4 3 10 0 0 0 60 0 9600000 1
 
-# Enable 640x480 custom display mode
+# Enable NEW 640x480 custom display mode (LCD without adapter required)
+#framebuffer_width=640
+#framebuffer_height=480
+#display_rotate=2
+#dpi_output_format=516117
+#hdmi_timings=640 1 32 48 88 480 1 13 3 32 0 0 0 60 0 32000000 1
+
+# Enable OLD 640x480 custom display mode (LCD that REQUIRES an adapter)
 #framebuffer_width=640
 #framebuffer_height=480
 #display_rotate=3

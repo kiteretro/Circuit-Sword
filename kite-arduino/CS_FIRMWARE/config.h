@@ -69,7 +69,7 @@
 #define USE_JOYSTICK_2
 #define USE_VOLUME_ANALOG
 #define USE_ALT_PINS_VOLUME_DIGITAL
-#define LCD LCD_35_640
+#define LCD LCD_35_640_54P
 #define BTN_UP     15
 #define BTN_DOWN   13
 #define BTN_LEFT   8

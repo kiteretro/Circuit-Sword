@@ -119,6 +119,8 @@ void lcdInit() {
   lcdInit_26_320();
 #elif LCD == LCD_35_640
   lcdInit_35_640();
+#elif LCD == LCD_35_640_54P
+  lcdInit_35_640_54p();
 #elif LCD == LCD_32_800
   lcdInit_32_800();
 #else
@@ -236,6 +238,10 @@ void lcdInit_35_640() {
   lcdCommand(0x29); // Display on
 }
 
+void lcdInit_35_640_54p() {
+  // Init code is a secret (for now)
+}
+
 void lcdInit_32_800() {
   // Removed for now, sorry ;)
 }
@@ -265,6 +271,8 @@ void lcdCommand(uint8_t cmd) {
 #if LCD == LCD_26_320
   lcdClockOut(0);
 #elif LCD == LCD_35_640
+  lcdClockOut(0);
+#elif LCD == LCD_35_640_54P
   lcdClockOut(0);
 #elif LCD == LCD_32_800
   uint8_t cmdbyte = 0x70;
@@ -299,6 +307,8 @@ void lcdData(uint8_t data) {
 #if LCD == LCD_26_320
   lcdClockOut(1);
 #elif LCD == LCD_35_640
+  lcdClockOut(1);
+#elif LCD == LCD_35_640_54P
   lcdClockOut(1);
 #elif LCD == LCD_32_800
   uint8_t databyte = 0x72;
