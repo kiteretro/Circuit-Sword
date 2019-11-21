@@ -1,0 +1,8 @@
+--- Makefile	2019-08-18 09:41:34.849812100 +0100
++++ Makefilev1	2019-08-18 09:41:57.259794579 +0100
+@@ -68,4 +68,4 @@
+ 
+ obj-$(CONFIG_RTL8723BS) := r8723bs.o
+ 
+-ccflags-y += -I$(srctree)/$(src)/include -I$(srctree)/$(src)/hal
++ccflags-y += -I$(src)/include -I$(src)/hal
