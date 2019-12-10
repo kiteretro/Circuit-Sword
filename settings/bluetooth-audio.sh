@@ -4,7 +4,7 @@ set -e
 # Install and Configure Bluetooth Audio Support for Pulse Audio
 sudo apt-get install -y pulseaudio-module-bluetooth
 sudo adduser pi bluetooth
-if ! grep "load-module module-switch-on-connect" /etc/pulse/default.pa;
+if ! grep "load-module module-switch-on-connect" /etc/pulse/default.pa; then
   echo "load-module module-switch-on-connect" >> /etc/pulse/default.pa
 fi
 
