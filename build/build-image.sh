@@ -127,9 +127,12 @@ fi
 # Copy img to new + name
 execute "cp $IMG $OUTFILE"
 
-# Mount
-execute "mount -o loop,offset=4194304 $OUTFILE $MOUNTFAT32"
-execute "mount -o loop,offset=63963136 $OUTFILE $MOUNTEXT4"
+# Find partions using kpartx
+execute "kpartx -a -v -s  $OUTFILE" 
+
+# Mount partitions
+execute "sudo mount /dev/mapper/loop0p1 $MOUNTFAT32"
+execute "sudo mount /dev/mapper/loop0p2 $MOUNTEXT4"
 
 # Install
 execute "../install.sh YES $BRANCH $MOUNTFAT32 $MOUNTEXT4"
@@ -137,9 +140,12 @@ execute "../install.sh YES $BRANCH $MOUNTFAT32 $MOUNTEXT4"
 # Patch for PLUS
 execute "unzip -o -d $MOUNTFAT32 $MOUNTEXT4$BINDIR/settings/pi_plus_20190130.zip"
 
-# Unmount
+# Unmount partitions
 execute "umount $MOUNTFAT32"
 execute "umount $MOUNTEXT4"
+
+# Remove mapped partitions
+execute "kpartx -d -v $OUTFILE"
 
 # DONE
 echo "SUCCESS: Image [$OUTFILE] has been built!"
