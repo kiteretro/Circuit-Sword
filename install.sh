@@ -167,6 +167,11 @@ if ! exists "$DEST/etc/emulationstation/themes/pixel/system/theme.xml" ; then
   execute "sed -i \"s/carbon/pixel/\" $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 fi
 
+# Fix warning regarding 'failed to find mixer elements' message while entering an emulator 
+if ! exists "$DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg" ; then
+  execute "echo '<string name="AudioDevice" value="PCM" />' >> $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
+fi
+
 # Install runcommand splash
 #if ! exists "$DEST/opt/retropie/configs/desktop/launching.png" ; then
 #  execute "rm -rf /tmp/es-runcommand-splash"
