@@ -3,6 +3,8 @@ https://github.com/kiteretro/rpi-precompiled-kernels
 
 # Build
 ```
+sudo apt-get -y install kpartx zip
+
 cd Circuit-Sword/build
 
 chmod +x upgrade-kernel.sh build-image.sh
