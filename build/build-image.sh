@@ -137,8 +137,9 @@ execute "sudo mount /dev/mapper/loop0p2 $MOUNTEXT4"
 # Install
 execute "../install.sh YES $BRANCH $MOUNTFAT32 $MOUNTEXT4"
 
-# Patch for PLUS
-execute "unzip -o -d $MOUNTFAT32 $MOUNTEXT4$BINDIR/settings/pi_plus_20190130.zip"
+# Patch for PLUS 
+# Not needed for Debian buster
+# execute "unzip -o -d $MOUNTFAT32 $MOUNTEXT4$BINDIR/settings/pi_plus_20190130.zip"
 
 # Unmount partitions
 execute "umount $MOUNTFAT32"
