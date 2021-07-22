@@ -128,7 +128,7 @@ fi
 execute "cp $IMG $OUTFILE"
 
 # Find partions using kpartx
-execute "kpartx -a -v -s  $OUTFILE" 
+execute "kpartx -a -v -s $OUTFILE" 
 
 # Mount partitions
 execute "sudo mount /dev/mapper/loop0p1 $MOUNTFAT32"
