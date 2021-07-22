@@ -46,7 +46,7 @@ else
 fi
 
 GITHUBPROJECT="Circuit-Sword"
-GITHUBURL="https://github.com/kiteretro/$GITHUBPROJECT"
+GITHUBURL="https://github.com/Antho91/$GITHUBPROJECT"
 PIHOMEDIR="$DEST/home/pi"
 BINDIR="$PIHOMEDIR/$GITHUBPROJECT"
 USER="pi"
