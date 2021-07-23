@@ -46,7 +46,7 @@ else
 fi
 
 GITHUBPROJECT="Circuit-Sword"
-GITHUBURL="https://github.com/Antho91/$GITHUBPROJECT"
+GITHUBURL="https://github.com/kiteretro/$GITHUBPROJECT"
 PIHOMEDIR="$DEST/home/pi"
 BINDIR="$PIHOMEDIR/$GITHUBPROJECT"
 USER="pi"
@@ -168,8 +168,8 @@ if ! exists "$DEST/etc/emulationstation/themes/pixel/system/theme.xml" ; then
 fi
 
 # Fix warning regarding 'failed to find mixer elements' message while entering an emulator 
-if exists "$DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg" ; then
-  execute "echo '<string name="AudioDevice" value="PCM" />' >> $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
+if ! exists "$DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg" ; then
+  execute "echo '<string name=\"AudioDevice\" value=\"PCM\" />' >> $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 fi
 
 # Install runcommand splash
