@@ -168,7 +168,7 @@ if ! exists "$DEST/etc/emulationstation/themes/pixel/system/theme.xml" ; then
 fi
 
 # Fix warning regarding 'failed to find mixer elements' message while entering an emulator 
-if ! exists "$DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg" ; then
+if exists "$DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg" ; then
   execute "echo '<string name=\"AudioDevice\" value=\"PCM\" />' >> $DEST/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 fi
 
