@@ -218,6 +218,9 @@ if [[ $(grep '/ramdisk' $DEST/etc/fstab) == "" ]] ; then
   execute "echo 'tmpfs    /ramdisk    tmpfs    defaults,noatime,nosuid,size=100k    0 0' >> $DEST/etc/fstab"
 fi
 
+# Place wifi DKMS module
+execute "$BINDIR/wifi-module/rtl8723bs-4.14/fix-for-installed-kernel.sh"
+
 # Remove the old service
 execute "rm -f $DEST/etc/systemd/system/cs-osd.service"
 execute "rm -f $DEST/etc/systemd/system/multi-user.target.wants/cs-osd.service"
