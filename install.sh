@@ -219,7 +219,8 @@ if [[ $(grep '/ramdisk' $DEST/etc/fstab) == "" ]] ; then
 fi
 
 # Place wifi DKMS module
-execute "$BINDIR/wifi-module/rtl8723bs-4.14/fix-for-installed-kernel.sh"
+#execute "$BINDIR/wifi-module/rtl8723bs-4.14/fix-for-installed-kernel.sh"
+execute "dpkg -x $BINDIR/wifi-module/rtl8723bs-dkms_4.14_all.deb $DEST/"
 
 # Remove the old service
 execute "rm -f $DEST/etc/systemd/system/cs-osd.service"
