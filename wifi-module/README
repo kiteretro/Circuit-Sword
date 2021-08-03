@@ -4,7 +4,7 @@ sudo apt-get update
 sudo apt install raspberrypi-kernel-headers
 sudo apt-get install subversion
 
-After that you are able to install (the prefferd mehod) .deb file
+After that you are able to install (the preffered mehod) .deb file
 
 
 # DEB package install (the preffered method)
