@@ -1,3 +1,12 @@
+Do you want to update the kernel without issues
+# Run first
+sudo apt-get update
+sudo apt install raspberrypi-kernel-headers
+sudo apt-get install subversion
+
+After that you are able to install (the prefferd mehod) .deb file
+
+
 # DEB package install (the preffered method)
 dpkg -i rtl8723bs-dkms_4.14_all.deb
 
