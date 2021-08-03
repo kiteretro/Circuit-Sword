@@ -124,6 +124,7 @@ fi
 # Copy required to /
 
 # Copy USB sound
+execute "mkdir $DEST/etc/"
 execute "cp $BINDIR/settings/asound.conf $DEST/etc/asound.conf"
 execute "cp $BINDIR/settings/alsa-base.conf $DEST/etc/modprobe.d/alsa-base.conf"
 
