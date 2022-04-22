@@ -158,6 +158,15 @@ if ! exists "$PIHOMEDIR/.vice/sdl-vicerc" ; then
   execute "chown -R $USER:$USER $PIHOMEDIR/.vice/"
 fi
 
+# Fix Bluetooth Audio
+cat << EOF >> $DEST/opt/retropie/configs/all/runcommand-onstart.sh
+#!/bin/bash
+set -e
+index=`pacmd list-cards | grep bluez_card -B1 | grep index | awk '{print $2}'`
+pacmd set-card-profile $index off
+pacmd set-card-profile $index a2dp_sink
+EOF
+
 # Install the pixel theme and set it as default
 if ! exists "$DEST/etc/emulationstation/themes/pixel/system/theme.xml" ; then
   execute "mkdir -p $DEST/etc/emulationstation/themes"
@@ -200,6 +209,13 @@ execute "rm -f $DEST/etc/systemd/system/multi-user.target.wants/wifi-country.ser
 # Copy wifi firmware
 execute "cp $BINDIR/wifi-firmware/rtl* $DEST/lib/firmware/rtlwifi/"
 
+# Copy bluetooth firmware
+execute "mkdir -p $DEST/lib/firmware/rtl_bt/"
+execute "cp $BINDIR/bt-driver/rtlbt_* $DEST/lib/firmware/rtl_bt/"
+
+# Fix long delay of boot because looking for wrong serial port
+execute "sed -i \"s/dev-serial1.device/dev-ttyAMA0.device/\" $DEST/lib/systemd/system/hciuart.service"
+
 # Install python-serial
 execute "dpkg -x $BINDIR/settings/python-serial_2.6-1.1_all.deb $DEST/"
 
@@ -233,9 +249,17 @@ execute "rm -f $DEST/lib/systemd/system/dpi-cloner.service"
 # Install HUD service
 execute "cp $BINDIR/cs-hud/cs-hud.service $DEST/lib/systemd/system/cs-hud.service"
 
+# Install RTL Bluetooth service
+execute "cp $BINDIR/bt-driver/rtl-bluetooth.service $DEST/lib/systemd/system/rtl-bluetooth.service"
+execute "cp $BINDIR/bt-driver/rtk_hciattach $DEST/usr/bin/rtk_hciattach"
+
 #execute "systemctl enable cs-hud.service"
 execute "ln -s $DEST/lib/systemd/system/cs-hud.service $DEST/etc/systemd/system/cs-hud.service"
 execute "ln -s $DEST/lib/systemd/system/cs-hud.service $DEST/etc/systemd/system/multi-user.target.wants/cs-hud.service"
+
+#execute "systemctl enable rtl-bluetooth.service"
+execute "ln -s $DEST/lib/systemd/system/rtl-bluetooth.service $DEST/etc/systemd/system/rtl-bluetooth.service"
+execute "ln -s $DEST/lib/systemd/system/rtl-bluetooth.service $DEST/etc/systemd/system/multi-user.target.wants/rtl-bluetooth.service"
 
 # Install DPI-CLONER service
 execute "cp $BINDIR/dpi-cloner/dpi-cloner.service $DEST/lib/systemd/system/dpi-cloner.service"
