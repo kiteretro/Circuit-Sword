@@ -1,0 +1,1 @@
+gcc -o analog analog.c -lwiringPi -Wall -lm -ldl -ffast-math ; echo $?
