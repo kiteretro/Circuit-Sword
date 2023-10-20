@@ -11,7 +11,7 @@
 # If all goes wrong, restore the config.txt file from the backup:
 #   sudo cp ~/Circuit-Sword/settings/config.txt /boot/config.txt
 
-# CS CONFIG VERSION: 1.0
+# CS CONFIG VERSION: 1.1
 # CS CONFIG STATE: IDLE
 
 # For more options and information see
@@ -41,6 +41,10 @@ dtparam=audio=off
 # Enable SDIO wifi
 dtoverlay=sdio,poll_once=false
 
+# Enable RTL Bluetooth
+enable_uart=1
+dtoverlay=uart0,txd0_pin=32,rxd0_pin=33,pin_func=7
+
 # SD overclock (ONLY IF SD SUPPORTS IT)
 #dtoverlay=sdtweak,overclock_50=100
 
@@ -59,7 +63,7 @@ hdmi_force_hotplug=1
 ## Disable overscan
 #disable_overscan=1
 
-## Set HDMI output to 1280x720 (720p)
+## Set HDMI output to 1280x720 (720p) - Default
 #hdmi_group=1
 #hdmi_mode=4
 
@@ -97,19 +101,11 @@ display_rotate=2
 dpi_output_format=24597
 hdmi_timings=320 1 20 30 38 240 1 4 3 10 0 0 0 60 0 9600000 1
 
-# Enable NEW 640x480 custom display mode (LCD without adapter required)
+# Enable 640x480 custom display mode
 #framebuffer_width=640
 #framebuffer_height=480
 #display_rotate=2
 #dpi_output_format=516117
 #hdmi_timings=640 1 32 48 88 480 1 13 3 32 0 0 0 60 0 32000000 1
 
-# Enable OLD 640x480 custom display mode (LCD that REQUIRES an adapter)
-#framebuffer_width=640
-#framebuffer_height=480
-#display_rotate=3
-#dpi_output_format=287269
-#hdmi_timings=480 1 5 5 14 640 1 3 3 3 0 0 0 60 0 32000000 1
-
 # CS END DPI SETTINGS
-

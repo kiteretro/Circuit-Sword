@@ -46,7 +46,7 @@ fi
 KERNEL="kernel7"
 
 GITHUBPROJECT="Circuit-Sword"
-GITHUBURL="https://github.com/kiteretro/$GITHUBPROJECT"
+GITHUBURL="https://github.com/Antho91/$GITHUBPROJECT"
 PIHOMEDIR="$DEST/home/pi"
 BINDIR="$PIHOMEDIR/$GITHUBPROJECT"
 USER="pi"
@@ -165,9 +165,11 @@ if ! existsd "modules" ; then
   exit 1
 fi
 
-# Mount
-execute "mount -o loop,offset=4194304 $OUTFILE $MOUNTFAT32"
-execute "mount -o loop,offset=63963136 $OUTFILE $MOUNTEXT4"
+# Find partions using kpartx
+execute "kpartx -a -v -s  $OUTFILE" 
+
+# Mount FAT32 partition
+execute "sudo mount /dev/mapper/loop0p1 $MOUNTFAT32"
 
 # Install
 #execute "cp $MOUNTFAT32/$KERNEL.img $MOUNTFAT32/$KERNEL-backup.img"
@@ -176,6 +178,12 @@ execute "cp pi/*.dtb $MOUNTFAT32"
 execute "cp pi/overlays/*.dtb* $MOUNTFAT32/overlays/"
 execute "cp pi/overlays/README $MOUNTFAT32/overlays/"
 
+# Unmount FAT32 partition
+execute "umount $MOUNTFAT32"
+
+# Mount EXT4 partition
+execute "sudo mount /dev/mapper/loop0p2 $MOUNTEXT4"
+
 execute "rm -rf $MOUNTEXT4/lib/modules/*"
 
 execute "rsync -avh modules/ $MOUNTEXT4/"
@@ -183,9 +191,11 @@ execute "rsync -avh modules/ $MOUNTEXT4/"
 # Remove temp files
 execute "rm -rf modules/ pi/"
 
-# Unmount
-execute "umount $MOUNTFAT32"
+# Unmount EXT4 partition
 execute "umount $MOUNTEXT4"
+
+# Remove mapped partitions
+execute "kpartx -d -v $OUTFILE"
 
 # DONE
 echo "SUCCESS: Image [$OUTFILE] has had its kernel upgraded!"

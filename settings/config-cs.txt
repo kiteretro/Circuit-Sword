@@ -9,10 +9,10 @@ MODE=NORMAL
 #MODE=SHELL
 
 # Cloner settings
-CLONER=ON
+CLONER=OFF
 
 # Location of tester script (gets called with <python $TESTER>)
 TESTER=/home/pi/Circuit-Sword/cs-tester/cs-tester.py
 
-# Startup Exec
+# Startup Exec (make font smaller)
 STARTUPEXEC="sudo setfont /home/pi/Circuit-Sword/settings/miniwi-8.psf.gz"

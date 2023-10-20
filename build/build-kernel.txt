@@ -2,8 +2,8 @@ https://www.raspberrypi.org/documentation/linux/kernel/building.md
 https://www.raspberrypi.org/documentation/linux/kernel/configuring.md
 
 sudo apt-get -y update
-sudo apt-get -y install git bc libncurses5-dev
-git clone --depth=1 https://github.com/raspberrypi/linux --branch rpi-4.14.y
+sudo apt-get -y install git bc libncurses5-dev kpartx zip
+git clone --depth=1 https://github.com/raspberrypi/linux --branch rpi-5.10.y
 
 cd linux
 KERNEL=kernel7
@@ -37,8 +37,9 @@ wget <base_image>
 gunzip <base_image>.img.gz
 FILE=<base_image>.img
 
-sudo mount -o loop,offset=4194304 $FILE /mnt/fat32
-sudo mount -o loop,offset=63963136 $FILE /mnt/ext4
+sudo kpartx -a -v -s $FILE
+
+sudo mount /dev/mapper/loop0p1 /mnt/fat32
 
 sudo cp mnt/fat32/$KERNEL.img /mnt/fat32/$KERNEL-backup.img
 sudo cp ../pi/$KERNEL.img /mnt/fat32/$KERNEL.img
@@ -46,7 +47,12 @@ sudo cp ../pi/*.dtb /mnt/fat32/
 sudo cp ../pi/overlays/*.dtb* /mnt/fat32/overlays/
 sudo cp ../pi/overlays/README /mnt/fat32/overlays/
 
+sudo umount /mnt/fat32
+
+sudo mount /dev/mapper/loop0p2 /mnt/ext4
+
 sudo rsync -avh ../modules/ /mnt/ext4/
 
-sudo umount /mnt/fat32
 sudo umount /mnt/ext4
+
+sudo kpartx -d -v $FILE
